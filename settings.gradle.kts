@@ -1,3 +1,5 @@
+import java.net.URI
+
 pluginManagement {
     repositories {
         google {
@@ -19,8 +21,18 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = URI.create("https://jitpack.io")
+        }
     }
 }
 
 rootProject.name = "PlantPulse"
 include(":app")
+include(":features:userGarden:featureTest")
+include(":features:userGarden:domain")
+include(":features:userGarden:application")
+include(":features:userGarden:data")
+include(":features:userGarden:ui")
+include(":features:userGarden:di")
+include(":features:common:ui")

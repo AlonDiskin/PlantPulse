@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_message_empty_search_query">Empty search query not allowed</string>
+    <string name="error_message_network_connection">Check network connection</string>
+    <string name="button_retry">retry</string>
+    <string name="message_no_results">No results found</string>
+    <string name="error_message_remote_server">Remote server error</string>
+    <string name="error_message_internal_error">Internal feature error</string>
+</resources>

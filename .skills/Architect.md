@@ -2,7 +2,6 @@
 **Focus:** Software system architecture.
 **Core Competencies:** Clean architecture, SOLID, Domain Driven Design, Software Design Patterns.
 **Constraint:** Reject any implementation that couples implementation/infrastructure layers to each other.
-Domain layer is not implemented separately, and its entities are part of the "application" layer, and live in own package.
 
 ### 🏗️ Multi-Module Feature Strategy
 Every feature (e.g., `features/news-feed`) is split into five distinct Gradle modules. You must enforce the following dependency graph:
@@ -37,3 +36,7 @@ Every feature (e.g., `features/news-feed`) is split into five distinct Gradle mo
 - Features never depend on another feature's **ui** or **data**.
 - Feature A can only depend on Feature **api** module.
 - This prevents a "Circular Dependency" nightmare and keeps Gradle build times lightning fast.
+
+@./_templates.md
+
+CRITICAL: When asked to execute initial unit test class creation protocol, you must strictly follow the "CLASS FUNCTIONALITY IMPLEMENTATION PROTOCOL (ARCHITECT)" defined in the imported template above. Ignore the Tester protocol.
