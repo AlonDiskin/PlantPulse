@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.alon.plantpulse.usergarden.application.model.PlantsDetailError
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.plantsdetail.ui.databinding.FragmentPlantsSearchBinding
+import com.alon.plantpulse.usergarden.application.model.UserGardenError
+import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
+import com.alon.plantpulse.usergarden.ui.model.PlantUiState
 import com.alon.plantpulse.usergarden.ui.viewmodel.PlantsSearchViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +30,8 @@ class PlantsSearchFragment : Fragment() {
     private val viewModel: PlantsSearchViewModel by viewModels()
     private var _binding: FragmentPlantsSearchBinding? = null
     private val binding get() = _binding!!
-    private val adapter = PlantsSearchAdapter()
-    private var errorSnackbar: Snackbar? = null
+    private val adapter = PlantsSearchAdapter(::handleAddPlantClick)
+    private var snackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,12 +48,13 @@ class PlantsSearchFragment : Fragment() {
         setupSearchInteractions()
         observeSearchResults()
         handleSearchResultLoadState()
+        observePlantAdding()
     }
 
     override fun onDestroyView() {
         // Dismiss snackbar to ensure it doesn't hold onto the view hierarchy
-        errorSnackbar?.dismiss()
-        errorSnackbar = null
+        snackbar?.dismiss()
+        snackbar = null
 
         // Explicitly clear the adapter to break the view -> fragment cycle immediately
         binding.plantsRecyclerView.adapter = null
@@ -98,23 +101,20 @@ class PlantsSearchFragment : Fragment() {
             when (state.refresh) {
                 is LoadState.Loading -> {
                     // Clear any existing error message
-                    errorSnackbar?.dismiss()
+                    snackbar?.dismiss()
                     // Hide existing empty result message
                     binding.noResultsText.visibility = View.GONE
                     // Show loading indicator
                     binding.loadingIndicator.visibility = View.VISIBLE
                 }
-                is LoadState.NotLoading -> {
-                    // Hide loading indicator
-                    binding.loadingIndicator.visibility = View.GONE
-                }
+                is LoadState.NotLoading -> binding.loadingIndicator.visibility = View.GONE
                 is LoadState.Error -> showErrorNotification((state.refresh as LoadState.Error))
             }
 
             when (state.append) {
                 is LoadState.Loading -> {
                     // Clear any existing error message
-                    errorSnackbar?.dismiss()
+                    snackbar?.dismiss()
                     // Show loading indicator
                     binding.loadingIndicator.visibility = View.VISIBLE
                 }
@@ -128,37 +128,21 @@ class PlantsSearchFragment : Fragment() {
 
     private fun showErrorNotification(error: LoadState.Error) {
         when(error.error) {
-            is PlantsDetailError.EmptySearchQuery -> handleEmptyQueryError()
-            is PlantsDetailError.DeviceConnection -> handleDeviceConnectionError()
-            is PlantsDetailError.RemoteServer -> handleRemoteServerError()
-            is PlantsDetailError.Internal -> handleInternalFeatureError()
+            is UserGardenError.EmptySearchQuery -> handleEmptyQueryError()
+            is UserGardenError.Internal -> handleInternalFeatureError()
         }
     }
 
     private fun handleEmptyQueryError() {
-        errorSnackbar = Snackbar.make(binding.root,
+        snackbar = Snackbar.make(binding.root,
             getString(R.string.error_message_empty_search_query), Snackbar.LENGTH_INDEFINITE)
-        errorSnackbar?.show()
-    }
-
-    private fun handleDeviceConnectionError() {
-        errorSnackbar = Snackbar.make(binding.root,
-            getString(R.string.error_message_network_connection), Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.button_retry)) { adapter.retry() }
-        errorSnackbar?.show()
-    }
-
-    private fun handleRemoteServerError() {
-        errorSnackbar = Snackbar.make(binding.root,
-            getString(R.string.error_message_remote_server), Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.button_retry)) { adapter.retry() }
-        errorSnackbar?.show()
+        snackbar?.show()
     }
 
     private fun handleInternalFeatureError() {
-        errorSnackbar = Snackbar.make(binding.root,
+        snackbar = Snackbar.make(binding.root,
             getString(R.string.error_message_internal_error), Snackbar.LENGTH_INDEFINITE)
-        errorSnackbar?.show()
+        snackbar?.show()
     }
 
     private fun checkEmptySearch(loadStates: CombinedLoadStates) {
@@ -167,6 +151,34 @@ class PlantsSearchFragment : Fragment() {
 
         if(isRefreshDone && isListEmpty) {
             binding.noResultsText.visibility = View.VISIBLE
+        }
+    }
+
+    private fun handleAddPlantClick(plant: PlantUiState) {
+        viewModel.addPlantToGarden(plant)
+    }
+
+    private fun observePlantAdding() {
+        viewModel.addPlantUiState.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                is AddPlantUiState.Success -> handleAddPlantSuccess()
+                is AddPlantUiState.Error -> handleAddPlantError(state.error)
+            }
+        }
+    }
+
+    private fun handleAddPlantSuccess() {
+        snackbar = Snackbar.make(binding.root,
+            getString(R.string.message_plant_added), Snackbar.LENGTH_SHORT)
+        snackbar?.show()
+    }
+
+    private fun handleAddPlantError(error: UserGardenError) {
+        when(error) {
+            is UserGardenError.Internal -> handleInternalFeatureError()
+            else -> {
+                // Not in use
+            }
         }
     }
 }

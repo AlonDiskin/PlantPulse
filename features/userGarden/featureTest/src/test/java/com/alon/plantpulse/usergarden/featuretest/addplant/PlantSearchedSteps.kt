@@ -18,6 +18,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.data.local.Plant
 import com.alon.plantpulse.usergarden.data.local.PlantDao
+import com.alon.plantpulse.usergarden.featuretest.util.atPosition
+import com.alon.plantpulse.usergarden.featuretest.util.createPlant
+import com.alon.plantpulse.usergarden.featuretest.util.hasItemCount
 import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.PlantsSearchAdapter
 import com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment
@@ -129,58 +132,5 @@ class PlantSearchedSteps(private val plantDao: PlantDao) : GreenCoffeeSteps() {
             .check(matches(hasItemCount(0)))
         onView(withId(R.id.no_results_text))
             .check(matches(isDisplayed()))
-    }
-
-    private fun createPlant(
-        id: Int,
-        commonName: String,
-        scientificName: String,
-        imageUrl: String
-    ): Plant {
-        return Plant(
-            id = id,
-            commonName = commonName,
-            scientificName = scientificName,
-            imageUrl = imageUrl,
-            category = null,
-            subcategory = "",
-            daysToGermination = null,
-            daysToMaturity = null,
-            germinationSoilTemp = null,
-            matureHeight = null,
-            matureWidth = null,
-            bloomSeason = null,
-            rowSpacing = null,
-            sunCare = null,
-            waterCare = null,
-            directions = ""
-        )
-    }
-
-    private fun atPosition(recyclerViewId: Int, position: Int): Matcher<View> {
-        return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
-            override fun describeTo(description: Description) {
-                description.appendText("has item at position $position in RecyclerView with id $recyclerViewId")
-            }
-
-            override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-                if (recyclerView.id != recyclerViewId) return false
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-                    ?: return false // View is not bound/visible yet
-                return true
-            }
-        }
-    }
-
-    private fun hasItemCount(count: Int): Matcher<View> {
-        return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
-            override fun describeTo(description: Description) {
-                description.appendText("RecyclerView with item count: $count")
-            }
-
-            override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-                return recyclerView.adapter?.itemCount == count
-            }
-        }
     }
 }

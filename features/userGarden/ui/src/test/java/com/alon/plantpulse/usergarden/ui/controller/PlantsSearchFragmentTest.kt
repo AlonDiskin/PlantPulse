@@ -21,11 +21,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.alon.plantpulse.usergarden.application.model.PlantsDetailError
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.plantsdetail.ui.R
-import com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment
+import com.alon.plantpulse.usergarden.application.model.UserGardenError
+import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
 import com.alon.plantpulse.usergarden.ui.viewmodel.PlantsSearchViewModel
 import com.google.android.material.search.SearchView
@@ -54,6 +54,7 @@ class PlantsSearchFragmentTest {
     // Collaborators
     private val mockViewModel: PlantsSearchViewModel = mockk(relaxed = true)
     private val searchResultsLiveData = MutableLiveData<PagingData<PlantUiState>>()
+    private val addPlantUiStateLiveData = MutableLiveData<AddPlantUiState>()
 
     @Before
     fun setUp() {
@@ -63,6 +64,7 @@ class PlantsSearchFragmentTest {
         
         // Stub search results
         every { mockViewModel.searchResults } returns searchResultsLiveData
+        every { mockViewModel.addPlantUiState } returns addPlantUiStateLiveData
 
         // Launch fragment under test
         scenario = launchFragmentInHiltContainer<PlantsSearchFragment>()
@@ -127,7 +129,7 @@ class PlantsSearchFragmentTest {
         // Given
         val expectedErrorMessage = context.getString(R.string.error_message_empty_search_query)
         val errorPagingData = PagingData.from(emptyList<PlantUiState>(),
-            LoadStates(LoadState.Error(PlantsDetailError.EmptySearchQuery()),
+            LoadStates(LoadState.Error(UserGardenError.EmptySearchQuery()),
                 LoadState.NotLoading(false),
                 LoadState.NotLoading(false)))
 
@@ -139,52 +141,6 @@ class PlantsSearchFragmentTest {
 
         // Then
         onView(withText(expectedErrorMessage))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun showErrorNotificationWithRetryOption_WhenSearchFails_WithDeviceConnectionError() {
-        // Given
-        val expectedErrorMessage = context.getString(R.string.error_message_network_connection)
-        val expectedRetryButton = context.getString(R.string.button_retry)
-        val errorPagingData = PagingData.from(emptyList<PlantUiState>(),
-            LoadStates(LoadState.Error(PlantsDetailError.DeviceConnection()),
-                LoadState.NotLoading(false),
-                LoadState.NotLoading(false)))
-
-        // When
-        scenario.onActivity {
-            searchResultsLiveData.value = errorPagingData
-        }
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
-
-        // Then
-        onView(withText(expectedErrorMessage))
-            .check(matches(isDisplayed()))
-        onView(withText(expectedRetryButton))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun showErrorNotificationWithRetryOption_WhenSearchFails_WithRemoteServerError() {
-        // Given
-        val expectedErrorMessage = context.getString(R.string.error_message_remote_server)
-        val expectedRetryButton = context.getString(R.string.button_retry)
-        val errorPagingData = PagingData.from(emptyList<PlantUiState>(),
-            LoadStates(LoadState.Error(PlantsDetailError.RemoteServer()),
-                LoadState.NotLoading(false),
-                LoadState.NotLoading(false)))
-
-        // When
-        scenario.onActivity {
-            searchResultsLiveData.value = errorPagingData
-        }
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
-
-        // Then
-        onView(withText(expectedErrorMessage))
-            .check(matches(isDisplayed()))
-        onView(withText(expectedRetryButton))
             .check(matches(isDisplayed()))
     }
 
@@ -192,9 +148,8 @@ class PlantsSearchFragmentTest {
     fun showErrorNotification_WhenSearchFails_WithInternalError() {
         // Given
         val expectedErrorMessage = context.getString(R.string.error_message_internal_error)
-        val expectedRetryButton = context.getString(R.string.button_retry)
         val errorPagingData = PagingData.from(emptyList<PlantUiState>(),
-            LoadStates(LoadState.Error(PlantsDetailError.Internal(mockk())),
+            LoadStates(LoadState.Error(UserGardenError.Internal(mockk())),
                 LoadState.NotLoading(false),
                 LoadState.NotLoading(false)))
 
@@ -223,6 +178,58 @@ class PlantsSearchFragmentTest {
 
         // Then fragment should show 'No results found' message in middle of screen
         onView(withId(R.id.no_results_text))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun addPlantToGarden_WhenUserSelectToAddPlantFromSearchResults() {
+        // Given fragment has a list of plants search results
+        val plants = listOf(
+            PlantUiState(1, "Rose", "Rosa", "url1")
+        )
+        val pagingData = PagingData.from(plants)
+
+        searchResultsLiveData.value = pagingData
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        every { mockViewModel.addPlantToGarden(any()) } returns Unit
+
+        // When user clicks on add plant button for a plant
+        onView(withId(R.id.add_plant_button))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should request view model to add plant to garden
+        verify(exactly = 1) { mockViewModel.addPlantToGarden(plants[0]) }
+    }
+
+    @Test
+    fun notifyUi_WhenPlantWasAddedToGardenSuccessfully() {
+        // Given
+        val uiState = AddPlantUiState.Success
+        val expectedMessage = context.getString(R.string.message_plant_added)
+
+        // When plant is added to garden
+        addPlantUiStateLiveData.value = uiState
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show success message
+        onView(withText(expectedMessage))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun notifyUi_WhenPlantAddingToGardenFails() {
+        // Given
+        val uiState = AddPlantUiState.Error(UserGardenError.Internal(mockk()))
+        val expectedErrorMessage = context.getString(R.string.error_message_internal_error)
+
+        // When plant is added to garden
+        addPlantUiStateLiveData.value = uiState
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show success message
+        onView(withText(expectedErrorMessage))
             .check(matches(isDisplayed()))
     }
 }

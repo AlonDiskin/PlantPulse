@@ -3,6 +3,7 @@ package com.alon.plantpulse.usergarden.featuretest.di
 import android.content.Context
 import androidx.room.Room
 import com.alon.plantpulse.usergarden.data.local.PlantDao
+import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.TestDatabase
 import dagger.Module
 import dagger.Provides
@@ -27,5 +28,11 @@ object TestAppDataModule {
     @Provides
     fun providePlantDao(db: TestDatabase): PlantDao {
         return db.plantDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserPlantDao(db: TestDatabase): UserPlantDao {
+        return db.userPlantDao()
     }
 }

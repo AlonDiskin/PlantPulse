@@ -62,6 +62,7 @@ dependencies {
     // Local testing
     testImplementation(libs.junit)
     testImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.core.testing)
     testImplementation(libs.androidx.espresso.core)
     testImplementation(libs.androidx.core)
     testImplementation(libs.truth)

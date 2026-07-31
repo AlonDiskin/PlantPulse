@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.alon.plantpulse.db.AppDatabase
 import com.alon.plantpulse.usergarden.data.local.PlantDao
+import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +27,11 @@ object AppDataModule {
     @Provides
     fun providePlantDao(db: AppDatabase): PlantDao {
         return db.plantDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserPlantDao(db: AppDatabase): UserPlantDao {
+        return db.userPlantDao()
     }
 }

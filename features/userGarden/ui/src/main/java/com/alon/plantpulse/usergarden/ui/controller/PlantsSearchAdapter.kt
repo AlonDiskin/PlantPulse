@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alon.plantpulse.plantsdetail.ui.databinding.PlantItemBinding
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
 
-class PlantsSearchAdapter : PagingDataAdapter<PlantUiState, PlantsSearchAdapter.PlantViewHolder>(DiffCallback) {
+class PlantsSearchAdapter(
+    private val addPlantClickListener: (PlantUiState) -> Unit
+) : PagingDataAdapter<PlantUiState, PlantsSearchAdapter.PlantViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val binding = PlantItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,7 +24,20 @@ class PlantsSearchAdapter : PagingDataAdapter<PlantUiState, PlantsSearchAdapter.
         }
     }
 
-    class PlantViewHolder(private val binding: PlantItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PlantViewHolder(private val binding: PlantItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.addPlantButton.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        addPlantClickListener(item)
+                    }
+                }
+            }
+        }
+
         fun bind(item: PlantUiState) {
             binding.plant = item
             binding.executePendingBindings()

@@ -89,4 +89,5 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.navigation.test)
+    testImplementation("androidx.test.espresso:espresso-contrib:3.7.0")
 }

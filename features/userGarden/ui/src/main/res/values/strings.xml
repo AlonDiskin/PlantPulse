@@ -6,4 +6,6 @@
     <string name="message_no_results">No results found</string>
     <string name="error_message_remote_server">Remote server error</string>
     <string name="error_message_internal_error">Internal feature error</string>
+    <string name="label_add_plant">Add</string>
+    <string name="message_plant_added">Plant added to user garden</string>
 </resources>

@@ -70,5 +70,7 @@ dependencies {
     kspTest(libs.room.compiler)
     testImplementation(libs.room.testing)
     testImplementation(libs.kotlinx.coroutines.test)
-
+    testImplementation(libs.androidx.paging.testing)
+    testImplementation(libs.truth)
+    testImplementation(libs.mockk)
 }

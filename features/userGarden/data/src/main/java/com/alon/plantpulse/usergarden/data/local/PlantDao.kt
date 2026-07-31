@@ -33,5 +33,8 @@ interface PlantDao {
            OR scientificName LIKE '%' || :query || '%' 
         ORDER BY commonName ASC
     """)
-    fun searchPlants(query: String): PagingSource<Int, Plant>
+    fun search(query: String): PagingSource<Int, Plant>
+
+    @Query("SELECT * FROM plants WHERE id = :id")
+    suspend fun getById(id: Int): Plant
 }

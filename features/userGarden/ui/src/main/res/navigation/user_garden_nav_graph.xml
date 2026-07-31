@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/plants_detail_nav_graph"
-    app:startDestination="@id/plantsSearchFragment">
+    app:startDestination="@id/userGardenFragment">
+
+    <fragment
+        android:id="@+id/userGardenFragment"
+        android:name="com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment"
+        android:label="User Garden"
+        tools:layout="@layout/fragment_user_garden">
+        <action
+            android:id="@+id/action_userGardenFragment_to_plantsSearchFragment"
+            app:destination="@id/plantsSearchFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/plantsSearchFragment"
         android:name="com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment"
-        android:label="Add Plant" />
+        android:label="Add Plant"
+        tools:layout="@layout/fragment_plants_search" />
+
 </navigation>

@@ -59,7 +59,7 @@ class PlantDaoTest {
         val pagingFlow = Pager(
             config = PagingConfig(pageSize = 10)
         ) {
-            plantDao.searchPlants("Monstera")
+            plantDao.search("Monstera")
         }.flow
 
         val actualPlants: List<Plant> = pagingFlow.asSnapshot()
@@ -67,6 +67,27 @@ class PlantDaoTest {
 
         // Then
         assertThat(actualPlants).isEqualTo(expectedResults)
+    }
+
+    @Test
+    fun insertPlants_AndGetPlantById() = runTest {
+        // Given
+        val plants: List<Plant> = listOf(
+            createPlant(1, "Monstera Deliciosa", "Monstera deliciosa", "image_url_1"),
+            createPlant(2, "Snake Plant", "Sansevieria trifasciata", "image_url_2"),
+            createPlant(3, "Swiss Cheese Plant", "Monstera adansonii", "image_url_3")
+        )
+        val plantId = plants[2].id
+        val expectedPlant = plants[2]
+
+        plantDao.insertAll(plants)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When
+        val actualPlant = plantDao.getById(plantId)
+
+        // Then
+        assertThat(actualPlant).isEqualTo(expectedPlant)
     }
 
     private fun createPlant(

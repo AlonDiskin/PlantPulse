@@ -4,6 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.alon.plantpulse.usergarden.application.model.Result
+import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.domain.PlantEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,7 +16,8 @@ import javax.inject.Singleton
  * Local data store for plants, using Room for persistence and Paging library for data loading.
  */
 @Singleton
-class LocalPlantsStore @Inject constructor(private val plantDao: PlantDao) {
+class LocalPlantsStore @Inject constructor(private val plantDao: PlantDao,
+                                           private val userPlantDao: UserPlantDao) {
 
     companion object {
         private const val DEFAULT_PAGE_SIZE = 20
@@ -32,9 +35,30 @@ class LocalPlantsStore @Inject constructor(private val plantDao: PlantDao) {
                 pageSize = DEFAULT_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { plantDao.searchPlants(query) }
+            pagingSourceFactory = { plantDao.search(query) }
         )
             .flow
             .map { pagingData -> pagingData.map { it.toPlantEntity() }}
+    }
+
+    fun getUserPlants(): Flow<PagingData<PlantEntity>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { userPlantDao.getAll() }
+        )
+            .flow
+            .map { pagingData -> pagingData.map { plantDao.getById(it.plantId).toPlantEntity() } }
+    }
+
+    suspend fun addUserPlant(id: Int): Result<Unit, UserGardenError> {
+        try {
+            userPlantDao.add(UserPlant(id))
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Failure(UserGardenError.Internal(e))
+        }
     }
 }
