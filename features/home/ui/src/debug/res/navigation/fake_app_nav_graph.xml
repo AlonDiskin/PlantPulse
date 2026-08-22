@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fake_app_nav_graph"
+    app:startDestination="@id/fakeHomeFeatureFragment">
+
+    <fragment
+        android:id="@+id/fakeHomeFeatureFragment"
+        android:name="com.alon.plantpulse.home.ui.FakeHomeFeatureFragment"
+        android:label="FakeHomeFeatureFragment" >
+        <action
+            android:id="@+id/action_fakeHomeFeatureFragment_to_fakeHomeFeatureDestFragment"
+            app:destination="@id/fakeHomeFeatureDestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fakeHomeFeatureDestFragment"
+        android:name="com.alon.plantpulse.home.ui.FakeHomeFeatureDestFragment"
+        android:label="FakeHomeFeatureDestFragment" />
+</navigation>

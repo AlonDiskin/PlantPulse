@@ -1,5 +1,8 @@
 import java.net.URI
 
+include(":features:home:ui")
+
+
 pluginManagement {
     repositories {
         google {
