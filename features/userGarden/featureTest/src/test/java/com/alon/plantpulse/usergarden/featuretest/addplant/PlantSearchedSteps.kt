@@ -47,8 +47,8 @@ class PlantSearchedSteps(private val plantDao: PlantDao) : GreenCoffeeSteps() {
     )
     private val query = "monstera"
     private val expectedResults: List<PlantUiState> = listOf(
-        PlantUiState(1, "Monstera Deliciosa", "Monstera deliciosa", "image_url_1"),
-        PlantUiState(3, "Swiss Cheese Plant", "Monstera adansonii", "image_url_3")
+        PlantUiState(1, "Monstera Deliciosa", "Monstera deliciosa", "image_url_1",false),
+        PlantUiState(3, "Swiss Cheese Plant", "Monstera adansonii", "image_url_3",false)
     )
 
     @Given("^user want to add Monstera plant to garden$")

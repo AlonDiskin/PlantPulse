@@ -4,10 +4,13 @@ import androidx.paging.PagingData
 import com.alon.plantpulse.usergarden.data.local.LocalPlantsStore
 import com.alon.plantpulse.usergarden.domain.PlantEntity
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class PlantRepositoryImplTest {
@@ -28,5 +31,21 @@ class PlantRepositoryImplTest {
         // Then
         assertThat(result).isEqualTo(expectedResult)
         verify { localStore.search(query) }
+    }
+
+    @Test
+    fun delegateRequestToLocalPlantsStore_WhenPlantsIdsRequested() = runTest{
+        // Given
+        val localStoreResult = flowOf(setOf(1, 2, 3))
+        val expectedResult = localStoreResult
+
+        coEvery { localStore.getUserPlantIds() } returns localStoreResult
+
+        // When
+        val actualResult = repository.getUserPlantIds()
+
+        // Then
+        assertThat(actualResult).isEqualTo(expectedResult)
+        coVerify(exactly = 1) { localStore.getUserPlantIds() }
     }
 }

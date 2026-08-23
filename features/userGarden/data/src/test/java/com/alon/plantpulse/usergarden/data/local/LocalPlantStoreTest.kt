@@ -9,6 +9,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -95,5 +97,20 @@ class LocalPlantStoreTest {
         // Then
         coVerify(exactly = 1) { userPlantDao.add(expectedUserPlant) }
         assertThat(actualResult).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun getUserPlantsIdsFromDb_WhenPlantIdsRequested() = runTest {
+        // Given
+        val ids = listOf(1,2,3,4,5)
+
+        coEvery { userPlantDao.getAllIds() } returns flowOf(ids)
+
+        // When
+        val actualIds = store.getUserPlantIds().first()
+
+        // Then
+        assertThat(actualIds).isEqualTo(ids.toSet())
+        coVerify(exactly = 1) { userPlantDao.getAllIds() }
     }
 }

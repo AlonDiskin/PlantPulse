@@ -9,15 +9,17 @@ data class PlantDto(
     val id: Int,
     val commonName: String,
     val scientificName: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val isAdded: Boolean = false
 )
 
 /**
  * Mapper extension to convert PlantEntity to PlantDto.
  */
-fun PlantEntity.toDto() = PlantDto(
+fun PlantEntity.toDto(isAdded: Boolean) = PlantDto(
     id = id,
     commonName = commonName,
     scientificName = scientificName,
-    imageUrl = imageUrl
+    imageUrl = imageUrl,
+    isAdded = isAdded
 )

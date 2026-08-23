@@ -9,6 +9,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -61,5 +62,28 @@ class UserPlantDaoTest {
 
         // Then resulted paged data should contain the user plant
         assertThat(actualPlants).isEqualTo(expectedPlants)
+    }
+
+    @Test
+    fun insertPlants_AndAllPlantIds() = runTest {
+        // Given
+        val plants = listOf(
+            UserPlant(1),
+            UserPlant(2),
+            UserPlant(3)
+        )
+        val expected = listOf(1, 2, 3)
+
+        userPlantDao.add(plants[0])
+        userPlantDao.add(plants[1])
+        userPlantDao.add(plants[2])
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When
+        val actual = userPlantDao.getAllIds().first()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
     }
 }

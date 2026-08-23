@@ -12,6 +12,6 @@ fun PlantEntity.toUserPlantDto() = UserPlantDto(
     id = id,
     commonName = commonName,
     scientificName = scientificName,
-    category = category?.name ?: "",
+    category = category?.name?.lowercase() ?: "",
     imageUrl = imageUrl
 )

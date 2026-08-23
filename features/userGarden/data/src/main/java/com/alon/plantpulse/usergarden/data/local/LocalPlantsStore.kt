@@ -61,4 +61,9 @@ class LocalPlantsStore @Inject constructor(private val plantDao: PlantDao,
             return Result.Failure(UserGardenError.Internal(e))
         }
     }
+
+    fun getUserPlantIds(): Flow<Set<Int>> {
+        return userPlantDao.getAllIds()
+            .map { it.toSet() }
+    }
 }

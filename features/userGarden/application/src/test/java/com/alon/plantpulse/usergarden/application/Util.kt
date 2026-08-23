@@ -1,5 +1,6 @@
 package com.alon.plantpulse.usergarden.application
 
+import com.alon.plantpulse.usergarden.application.model.PlantDto
 import com.alon.plantpulse.usergarden.domain.PlantEntity
 
 fun createPlantEntity(id: Int, commonName: String, scientificName: String, imageUrl: String) =
@@ -21,3 +22,6 @@ fun createPlantEntity(id: Int, commonName: String, scientificName: String, image
         waterCare = null,
         directions = ""
     )
+
+fun createPlantDto(id: Int, commonName: String, scientificName: String, imageUrl: String, isAdded: Boolean) =
+    PlantDto(id, commonName, scientificName, imageUrl, isAdded)

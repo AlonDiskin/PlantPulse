@@ -16,8 +16,10 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -27,12 +29,15 @@ import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
+import com.alon.plantpulse.usergarden.ui.util.atPosition
 import com.alon.plantpulse.usergarden.ui.viewmodel.PlantsSearchViewModel
 import com.google.android.material.search.SearchView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.verify
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -106,8 +111,8 @@ class PlantsSearchFragmentTest {
     fun whenSearchResultsAreAvailable_ShouldPresentResultsAsPagedList() {
         // Given a paged data of plants search results
         val plants = listOf(
-            PlantUiState(1, "Rose", "Rosa", "url1"),
-            PlantUiState(2, "Tulip", "Tulipa", "url2")
+            PlantUiState(1, "Rose", "Rosa", "url1",false),
+            PlantUiState(2, "Tulip", "Tulipa", "url2",false)
         )
         val pagingData = PagingData.from(plants)
 
@@ -185,7 +190,7 @@ class PlantsSearchFragmentTest {
     fun addPlantToGarden_WhenUserSelectToAddPlantFromSearchResults() {
         // Given fragment has a list of plants search results
         val plants = listOf(
-            PlantUiState(1, "Rose", "Rosa", "url1")
+            PlantUiState(1, "Rose", "Rosa", "url1",false)
         )
         val pagingData = PagingData.from(plants)
 
@@ -231,5 +236,47 @@ class PlantsSearchFragmentTest {
         // Then fragment should show success message
         onView(withText(expectedErrorMessage))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun distinguishBetweenPlantsAlreadyAddedToUserGardenAndNot_WhenShowingSearchResults() {
+        // Given plant search results with added plants and not added plants
+        val plants = listOf(
+            PlantUiState(1, "Rose", "Rosa", "url1", true),
+            PlantUiState(2, "Tulip", "Tulipa", "url2", false)
+        )
+        val pagingData = PagingData.from(plants)
+
+        // When search results are shown
+        scenario.onActivity {
+            searchResultsLiveData.value = pagingData
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then results listing should distinguish between plants already added to user garden and not added plants
+        
+        // Verify item 1 (Rose) which is added - Button should be disabled and show "Added"
+        onView(withId(R.id.plants_recycler_view))
+            .perform(RecyclerViewActions.scrollToPosition<PlantsSearchAdapter.PlantViewHolder>(0))
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        
+        onView(atPosition(R.id.plants_recycler_view, 0))
+            .check(matches(hasDescendant(allOf(
+                withId(R.id.add_plant_button),
+                not(isEnabled()),
+                withText(R.string.label_added)
+            ))))
+
+        // Verify item 2 (Tulip) which is not added - Button should be enabled and show "Add"
+        onView(withId(R.id.plants_recycler_view))
+            .perform(RecyclerViewActions.scrollToPosition<PlantsSearchAdapter.PlantViewHolder>(1))
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        onView(atPosition(R.id.plants_recycler_view, 1))
+            .check(matches(hasDescendant(allOf(
+                withId(R.id.add_plant_button),
+                isEnabled(),
+                withText(R.string.label_add_plant)
+            ))))
     }
 }

@@ -35,4 +35,10 @@ interface PlantRepository {
      * @return A [Result] indicating success ([Unit]) or failure with a [UserGardenError].
      */
     suspend fun addUserPlant(id: Int): Result<Unit, UserGardenError>
+
+    /**
+     * Returns a flow containing the set of IDs for all plants in the user's garden.
+     */
+    fun getUserPlantIds(): Flow<Set<Int>>
+
 }

@@ -8,7 +8,9 @@ import com.alon.plantpulse.usergarden.application.interfaces.PlantRepository
 import com.alon.plantpulse.usergarden.application.model.PlantDto
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.application.model.toDto
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,6 +25,7 @@ import javax.inject.Inject
  */
 class SearchPlantsUseCase @Inject constructor(private val repository: PlantRepository) {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(query: String): Flow<PagingData<PlantDto>> {
         if (query.isBlank()) {
             // Return an empty flow with an error state
@@ -35,8 +38,12 @@ class SearchPlantsUseCase @Inject constructor(private val repository: PlantRepos
         }
 
         // Return the mapped PagingData from the repository
-        return repository.search(query).map { pagingData ->
-            pagingData.map { it.toDto() }
+        return repository.getUserPlantIds().flatMapLatest { addedIds ->
+            repository.search(query).map { pagingData ->
+                pagingData.map { entity ->
+                    entity.toDto(isAdded = addedIds.contains(entity.id))
+                }
+            }
         }
     }
 }

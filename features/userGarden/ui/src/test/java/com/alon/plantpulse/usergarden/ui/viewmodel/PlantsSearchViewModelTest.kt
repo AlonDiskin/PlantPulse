@@ -77,7 +77,7 @@ class PlantsSearchViewModelTest {
     @Test
     fun addPlantToUserGarden_WhenRequestedToAddPlantToGarden() = runTest {
         // Given
-        val plantState = PlantUiState(1, "Rose", "Rosa", "url")
+        val plantState = PlantUiState(1, "Rose", "Rosa", "url",false)
         val result = Result.Success(Unit)
         val expectedState = AddPlantUiState.Success
 

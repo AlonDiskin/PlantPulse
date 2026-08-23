@@ -19,7 +19,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.alon.plantpulse.runner.CustomAndroidTestRunner"
     }
 
     buildTypes {
@@ -65,7 +65,25 @@ dependencies {
     implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
-    testImplementation(libs.junit)
+    // Instrumentation testing
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.androidx.core)
+    androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.7.0")
+    androidTestImplementation(libs.greenCoffee)
+    androidTestImplementation(libs.hilt)
+    androidTestImplementation(libs.hiltTest)
+    kspAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.room.runtime)
+    androidTestImplementation(libs.room.ktx)
+    androidTestImplementation(libs.room.paging)
+    kspAndroidTest(libs.room.compiler)
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.paging.testing)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.test.uiautomator)
 }

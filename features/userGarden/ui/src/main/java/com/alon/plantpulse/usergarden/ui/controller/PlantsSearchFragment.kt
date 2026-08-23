@@ -81,8 +81,10 @@ class PlantsSearchFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = textView.text.toString()
                 if (query.isNotBlank()) {
+                    // Perform search
                     viewModel.searchPlants(query)
-                    
+                    // Clear any prev messages in snackbar
+                    snackbar?.dismiss()
                     // UI Feedback: Sync SearchBar text and hide SearchView
                     binding.searchBar.setText(query)
                     binding.searchView.hide()
@@ -100,8 +102,6 @@ class PlantsSearchFragment : Fragment() {
 
             when (state.refresh) {
                 is LoadState.Loading -> {
-                    // Clear any existing error message
-                    snackbar?.dismiss()
                     // Hide existing empty result message
                     binding.noResultsText.visibility = View.GONE
                     // Show loading indicator
@@ -113,8 +113,6 @@ class PlantsSearchFragment : Fragment() {
 
             when (state.append) {
                 is LoadState.Loading -> {
-                    // Clear any existing error message
-                    snackbar?.dismiss()
                     // Show loading indicator
                     binding.loadingIndicator.visibility = View.VISIBLE
                 }
@@ -169,7 +167,7 @@ class PlantsSearchFragment : Fragment() {
 
     private fun handleAddPlantSuccess() {
         snackbar = Snackbar.make(binding.root,
-            getString(R.string.message_plant_added), Snackbar.LENGTH_SHORT)
+            getString(R.string.message_plant_added), Snackbar.LENGTH_LONG)
         snackbar?.show()
     }
 

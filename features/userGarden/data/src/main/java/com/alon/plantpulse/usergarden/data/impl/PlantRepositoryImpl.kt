@@ -37,4 +37,8 @@ class PlantRepositoryImpl @Inject constructor(
     override suspend fun addUserPlant(id: Int): Result<Unit, UserGardenError> {
         return localStore.addUserPlant(id)
     }
+
+    override fun getUserPlantIds(): Flow<Set<Int>> {
+        return localStore.getUserPlantIds()
+    }
 }
