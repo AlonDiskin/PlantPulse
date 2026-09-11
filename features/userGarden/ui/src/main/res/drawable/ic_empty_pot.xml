@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- The Plant (Light Green) - Now with 4 Leaves -->
+    <path
+        android:fillColor="#90EE90"
+        android:pathData="M12,10
+                          C12,10 10,6 10,4 C10,2 12,1 12,1 C12,1 14,2 14,4 C14,6 12,10 12,10 Z
+                          M12,10
+                          C12,10 15,8 17,8 C19,8 20,10 20,10 C20,10 19,12 17,12 C15,12 12,10 12,10 Z
+                          M12,10
+                          C12,10 9,8 7,8 C5,8 4,10 4,10 C4,10 5,12 7,12 C9,12 12,10 12,10 Z
+                          M12,11
+                          C12,11 13,8 15,6 C17,4 18,4 18,4 C18,4 17,6 15,8 C13,10 12,11 12,11 Z" />
+
+    <!-- The Pot Body (Dark Gray) -->
+    <path
+        android:fillColor="#424242"
+        android:pathData="M5,10 L19,10 L17.5,20 C17.3,21.1 16.4,22 15.3,22 L8.7,22 C7.6,22 6.7,21.1 6.5,20 L5,10 Z" />
+
+    <!-- The Pot Rim -->
+    <path
+        android:fillColor="#616161"
+        android:pathData="M4,7 L20,7 C20.6,7 21,7.4 21,8 L21,9 C21,9.6 20.6,10 20,10 L4,10 C3.4,10 3,9.6 3,9 L3,8 C3,7.4 3.4,7 4,7 Z" />
+
+</vector>
+

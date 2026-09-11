@@ -17,6 +17,7 @@
 ### 📐 Layout & Interaction
 - **Grid System:** Strictly follow the 8dp grid (4dp for icons/small spacing).
 - **Touch Targets:** Minimum 48x48dp for all interactive elements.
+- **Data binding**: always use data binding library for xml layouts, so that view can use the created binding.
 - **Elevation:** Use "Tonal Elevation" over heavy shadows. Use `app:cardElevation="0dp"` and `app:cardBackgroundColor="?attr/colorSurfaceVariant"` for M3 cards.
 
 ### 🛠️ Tooling & Guardrails
