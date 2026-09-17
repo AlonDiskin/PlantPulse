@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_userGardenFragment_to_plantsSearchFragment"
             app:destination="@id/plantsSearchFragment" />
+        <action
+            android:id="@+id/action_userGardenFragment_to_userPlantDetailFragment"
+            app:destination="@id/userPlantDetailFragment" />
     </fragment>
 
     <fragment
@@ -20,5 +23,11 @@
         android:name="com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment"
         android:label="Add Plant"
         tools:layout="@layout/fragment_plants_search" />
+
+    <fragment
+        android:id="@+id/userPlantDetailFragment"
+        android:name="com.alon.plantpulse.usergarden.ui.controller.UserPlantDetailFragment"
+        android:label="Plant Detail"
+        tools:layout="@layout/fragment_plant_detail"/>
 
 </navigation>

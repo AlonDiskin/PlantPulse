@@ -8,6 +8,7 @@ import androidx.paging.testing.asSnapshot
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.alon.plantpulse.usergarden.data.util.createPlant
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -88,31 +89,5 @@ class PlantDaoTest {
 
         // Then
         assertThat(actualPlant).isEqualTo(expectedPlant)
-    }
-
-    private fun createPlant(
-        id: Int,
-        commonName: String,
-        scientificName: String,
-        imageUrl: String
-    ): Plant {
-        return Plant(
-            id = id,
-            commonName = commonName,
-            scientificName = scientificName,
-            imageUrl = imageUrl,
-            category = null,
-            subcategory = "",
-            daysToGermination = null,
-            daysToMaturity = null,
-            germinationSoilTemp = null,
-            matureHeight = null,
-            matureWidth = null,
-            bloomSeason = null,
-            rowSpacing = null,
-            sunCare = null,
-            waterCare = null,
-            directions = ""
-        )
     }
 }

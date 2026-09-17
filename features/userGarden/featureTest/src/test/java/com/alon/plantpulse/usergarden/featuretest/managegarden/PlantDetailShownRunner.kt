@@ -1,6 +1,7 @@
-package com.alon.plantpulse.usergarden.featuretest.addplant
+package com.alon.plantpulse.usergarden.featuretest.managegarden
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.alon.plantpulse.usergarden.featuretest.showplants.UserGardenPlantsShownSteps
 import com.alon.plantpulse.usergarden.featuretest.util.TestDatabase
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = HiltTestApplication::class)
-class PlantAddedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class PlantDetailShownRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
@@ -30,8 +31,8 @@ class PlantAddedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("feature/add_plant_to_garden.feature")
-                .withTags("@add-plant")
+                .withFeatureFromAssets("feature/manage_garden_plants.feature")
+                .withTags("@show-plant-detail")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -54,7 +55,12 @@ class PlantAddedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario
     @Test
     fun test() {
         hiltRule.inject()
-        start(PlantAddedSteps(db.plantDao(),db.userPlantDao()))
+        start(
+            PlantDetailShownSteps(
+                db.plantDao(),
+                db.userPlantDao()
+            )
+        )
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {

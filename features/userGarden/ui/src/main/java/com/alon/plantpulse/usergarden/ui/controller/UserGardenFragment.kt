@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,7 +32,9 @@ class UserGardenFragment : Fragment() {
     private val viewModel: UserGardenViewModel by viewModels()
     private var _binding: FragmentUserGardenBinding? = null
     private val binding get() = _binding!!
-    private val adapter = UserPlantsAdapter()
+    private val adapter = UserPlantsAdapter { plantId ->
+        navigateToPlantDetail(plantId)
+    }
     private var errorSnackbar: Snackbar? = null
 
     override fun onCreateView(
@@ -144,14 +147,16 @@ class UserGardenFragment : Fragment() {
         binding.emptyGardenLayout.visibility = View.GONE
 
         // Kill the animation on the specific icon
-        // clearAnimation() stops View animations, but for Property Animators
-        // it's safest to simply clear the animation and let the View rest.
         binding.emptyPotIcon.clearAnimation()
 
         // Reset the scale/translation to default
-        // to prevent the view from "freezing" in a half-grown state.
         binding.emptyPotIcon.scaleX = 1f
         binding.emptyPotIcon.scaleY = 1f
         binding.emptyPotIcon.translationY = 0f
+    }
+
+    private fun navigateToPlantDetail(plantId: Int) {
+        val bundle = bundleOf("plantId" to plantId)
+        findNavController().navigate(R.id.action_userGardenFragment_to_userPlantDetailFragment, bundle)
     }
 }

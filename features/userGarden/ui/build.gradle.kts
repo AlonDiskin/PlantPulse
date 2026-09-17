@@ -45,6 +45,7 @@ android {
 dependencies {
     // Project modules
     implementation(project(":features:userGarden:application"))
+    implementation(project(":features:userGarden:domain"))
 
     // Android core
     implementation(libs.androidx.appcompat)

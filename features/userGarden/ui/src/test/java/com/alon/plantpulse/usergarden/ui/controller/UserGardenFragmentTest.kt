@@ -271,4 +271,35 @@ class UserGardenFragmentTest {
         onView(withId(R.id.empty_pot_icon))
             .check(matches(not(isDisplayed())))
     }
+
+    @Test
+    fun showPlantDetail_WhenUserSelectListedPlant() {
+        // Given a created fragment with navigation and a collection of garden plants
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val navController = TestNavHostController(context)
+        val plants = listOf(
+            UserPlantUiState(42, "Aloe", "Aloe Vera", "url", "Succulent")
+        )
+
+        scenario.onActivity { activity ->
+            val fragment = activity.supportFragmentManager.fragments.first()!!
+            navController.setGraph(R.navigation.user_garden_nav_graph)
+            navController.setCurrentDestination(R.id.userGardenFragment)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When plants are updated from view model
+        userPlantsLiveData.value = PagingData.from(plants)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // And user click on first shown plant
+        onView(withId(R.id.user_plants_recycler_view))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<UserPlantsAdapter.PlantViewHolder>(0, click()))
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should navigate to detail screen with plant id
+        assertThat(navController.currentDestination?.id).isEqualTo(R.id.userPlantDetailFragment)
+        assertThat(navController.backStack.last().arguments?.getInt("plantId")).isEqualTo(42)
+    }
 }

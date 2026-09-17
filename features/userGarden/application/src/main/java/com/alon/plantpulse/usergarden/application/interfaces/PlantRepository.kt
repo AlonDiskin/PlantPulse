@@ -41,4 +41,8 @@ interface PlantRepository {
      */
     fun getUserPlantIds(): Flow<Set<Int>>
 
+    suspend fun getUserPlant(id: Int): Result<PlantEntity, UserGardenError>
+
+    suspend fun deleteUserPlant(id: Int): Result<Unit, UserGardenError>
+
 }

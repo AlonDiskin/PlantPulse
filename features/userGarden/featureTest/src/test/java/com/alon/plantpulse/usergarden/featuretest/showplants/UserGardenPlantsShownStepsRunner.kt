@@ -30,7 +30,7 @@ class UserGardenPlantsShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTe
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("feature/show_plants.feature")
+                .withFeatureFromAssets("feature/manage_garden_plants.feature")
                 .withTags("@show-user-garden")
                 .scenarios()
 

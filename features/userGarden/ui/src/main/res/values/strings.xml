@@ -8,5 +8,8 @@
     <string name="error_message_internal_error">Internal feature error</string>
     <string name="label_add_plant">Add</string>
     <string name="label_added">Added</string>
+    <string name="label_delete_plant">Delete Plant</string>
     <string name="message_plant_added">Plant added to user garden</string>
+    <string name="message_plant_deleted">Plant was successfully deleted from your garden.</string>
+    <string name="label_ok">OK</string>
 </resources>
