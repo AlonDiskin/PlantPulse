@@ -2,11 +2,16 @@ package com.alon.plantpulse.usergarden.ui.controller
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -32,9 +37,7 @@ class UserGardenFragment : Fragment() {
     private val viewModel: UserGardenViewModel by viewModels()
     private var _binding: FragmentUserGardenBinding? = null
     private val binding get() = _binding!!
-    private val adapter = UserPlantsAdapter { plantId ->
-        navigateToPlantDetail(plantId)
-    }
+    private val adapter = UserPlantsAdapter(::navigateToPlantDetail)
     private var errorSnackbar: Snackbar? = null
 
     override fun onCreateView(
@@ -49,9 +52,10 @@ class UserGardenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupMenu()
         handleFabClick()
         setupRecyclerView()
-        handleSearchResultLoadState()
+        handlePlantsLoadState()
         observeUserPlants()
     }
 
@@ -66,6 +70,24 @@ class UserGardenFragment : Fragment() {
 
         // Clear the binding reference
         _binding = null
+    }
+
+    private fun setupMenu() {
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.user_garden_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.menu_search -> {
+                        navigateToUserPlantSearch()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun handleFabClick() {
@@ -85,7 +107,7 @@ class UserGardenFragment : Fragment() {
         }
     }
 
-    private fun handleSearchResultLoadState() {
+    private fun handlePlantsLoadState() {
         adapter.addLoadStateListener { state ->
             // Resolve load state and map to ui function
 
@@ -158,5 +180,9 @@ class UserGardenFragment : Fragment() {
     private fun navigateToPlantDetail(plantId: Int) {
         val bundle = bundleOf("plantId" to plantId)
         findNavController().navigate(R.id.action_userGardenFragment_to_userPlantDetailFragment, bundle)
+    }
+
+    private fun navigateToUserPlantSearch() {
+        findNavController().navigate(R.id.action_userGardenFragment_to_gardenPlantsSearchFragment)
     }
 }

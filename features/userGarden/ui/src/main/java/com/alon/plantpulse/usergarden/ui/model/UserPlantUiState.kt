@@ -1,5 +1,7 @@
 package com.alon.plantpulse.usergarden.ui.model
 
+import com.alon.plantpulse.usergarden.application.model.UserPlantDto
+
 /**
  * UI State representation of a user's plant for display in the garden list.
  *
@@ -15,4 +17,12 @@ data class UserPlantUiState(
     val scientificName: String,
     val imageUrl: String,
     val category: String
+)
+
+fun UserPlantDto.toUiState() = UserPlantUiState(
+    id = id,
+    commonName = commonName,
+    scientificName = scientificName,
+    imageUrl = imageUrl,
+    category = category
 )

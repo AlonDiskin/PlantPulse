@@ -92,4 +92,16 @@ class PlantRepositoryImpl @Inject constructor(
             return Result.Failure(UserGardenError.Internal(e))
         }
     }
+
+    override fun searchUserPlants(query: String): Flow<PagingData<PlantEntity>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { plantDao.searchUserPlants(query) }
+        )
+            .flow
+            .map { pagingData -> pagingData.map { it.toPlantEntity() } }
+    }
 }

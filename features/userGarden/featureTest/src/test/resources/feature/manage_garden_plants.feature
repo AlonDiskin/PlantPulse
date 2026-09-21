@@ -14,7 +14,7 @@ Feature: User garden plants adding
     When he open garden screen
     Then app should show all his garden plants
 
-  # Rule: Manage single garden plant
+  # Rule: Show garden plant detail
 
   @show-plant-detail
   Scenario: Plant detail shown
@@ -33,3 +33,22 @@ Feature: User garden plants adding
     And confirm delete operation
     Then app should remove plant from garden
     And return to garden screen
+
+  # Rule: Search garden plants
+
+  @plant-searched
+  Scenario Outline: Garden plant searched
+    Given user has plants in garden
+    When he open garden search screen
+    And perform search for an "<plant_status>" plant
+    Then app should return "<search_outcome>"
+    When search has result
+    And user select to view first result plant detail
+    Then app should open plant detail screen to show plant data
+    Examples:
+      | plant_status | search_outcome |
+      | existing     | searched_plant |
+      | non_existing | no_results     |
+
+
+

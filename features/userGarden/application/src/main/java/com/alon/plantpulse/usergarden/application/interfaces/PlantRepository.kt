@@ -41,8 +41,21 @@ interface PlantRepository {
      */
     fun getUserPlantIds(): Flow<Set<Int>>
 
+    /**
+     * Retrieves a single plant's data by its [id].
+     */
     suspend fun getUserPlant(id: Int): Result<PlantEntity, UserGardenError>
 
+    /**
+     * Removes a plant from the user's personal garden collection.
+     */
     suspend fun deleteUserPlant(id: Int): Result<Unit, UserGardenError>
 
+    /**
+     * Searches for plants specifically within the user's personal garden.
+     *
+     * @param query The text search term.
+     * @return A [Flow] of [PagingData] containing the matching [PlantEntity] objects.
+     */
+    fun searchUserPlants(query: String): Flow<PagingData<PlantEntity>>
 }

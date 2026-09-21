@@ -37,4 +37,19 @@ interface PlantDao {
 
     @Query("SELECT * FROM plants WHERE id = :id")
     suspend fun getById(id: Int): Plant
+
+    /**
+     * Searches for plants specifically within the user's personal garden.
+     *
+     * @param query The search query.
+     * @return A [PagingSource] for the search results.
+     */
+    @Query("""
+        SELECT plants.* FROM plants 
+        INNER JOIN user_plants ON plants.id = user_plants.plantId
+        WHERE plants.commonName LIKE '%' || :query || '%' 
+           OR plants.scientificName LIKE '%' || :query || '%' 
+        ORDER BY plants.commonName ASC
+    """)
+    fun searchUserPlants(query: String): PagingSource<Int, Plant>
 }

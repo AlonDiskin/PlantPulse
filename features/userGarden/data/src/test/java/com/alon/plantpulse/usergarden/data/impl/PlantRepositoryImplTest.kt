@@ -10,12 +10,12 @@ import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.data.local.toPlantEntity
 import com.alon.plantpulse.usergarden.data.util.createPlant
-import com.alon.plantpulse.usergarden.domain.PlantEntity
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -162,7 +162,7 @@ class PlantRepositoryImplTest {
         val id = 1
         val expectedResult = Result.Success(Unit)
 
-        coEvery { userPlantDao.delete(id) } returns mockk()
+        coEvery { userPlantDao.delete(id) } returns 1
 
         // When user plant is deleted
         val actualResult = repo.deleteUserPlant(id)
@@ -170,5 +170,26 @@ class PlantRepositoryImplTest {
         // Then user plant is deleted from local plants store
         coVerify(exactly = 1) { userPlantDao.delete(id) }
         assertThat(actualResult).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun searchForMatchingUserPlants_WhenSearchedByQuery() = runTest{
+        // Given a search query, plants, and user plants
+        val query = "monstera"
+        val matchingPlants = listOf(
+            createPlant(1, "Monstera Deliciosa", "Monstera deliciosa", "url1"),
+            createPlant(2, "Swiss Cheese Plant", "Monstera adansonii", "url2")
+        )
+        val expectedEntities = matchingPlants.map { it.toPlantEntity() }
+        val pagingSource = matchingPlants.asPagingSourceFactory().invoke()
+
+        every { plantDao.searchUserPlants(query) } returns pagingSource
+
+        // When search for user plants is performed on repo
+        val actualResults = repo.searchUserPlants(query).asSnapshot()
+
+        // Then repo should return a paging flow of all plants, that are matched by query, and are in user plants
+        assertThat(actualResults).isEqualTo(expectedEntities)
+        verify(exactly = 1) { plantDao.searchUserPlants(query) }
     }
 }

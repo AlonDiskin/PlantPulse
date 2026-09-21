@@ -18,7 +18,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -162,7 +161,7 @@ class UserGardenFragmentTest {
 
         // Then fragment should show progress bar
         onView(withId(R.id.loading_indicator))
-            .check(matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -185,7 +184,7 @@ class UserGardenFragmentTest {
 
         // Then fragment should hide progress bar
         onView(withId(R.id.loading_indicator))
-            .check(matches(not(ViewMatchers.isDisplayed())))
+            .check(matches(not(isDisplayed())))
     }
 
         @Test
@@ -301,5 +300,27 @@ class UserGardenFragmentTest {
         // Then fragment should navigate to detail screen with plant id
         assertThat(navController.currentDestination?.id).isEqualTo(R.id.userPlantDetailFragment)
         assertThat(navController.backStack.last().arguments?.getInt("plantId")).isEqualTo(42)
+    }
+
+    @Test
+    fun openGardenPlantsSearchScreen_WhenUserClickOnAppBarSearchMenuButton() {
+        // Given a created fragment
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val navController = TestNavHostController(context)
+
+        scenario.onActivity { activity ->
+            val fragment = activity.supportFragmentManager.fragments.first()!!
+            navController.setGraph(R.navigation.user_garden_nav_graph)
+            navController.setCurrentDestination(R.id.userGardenFragment)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When user click on search menu button, from fragment's managed app bar menu
+        onView(withId(R.id.menu_search)).perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should navigate to user garden search screen
+        assertThat(navController.currentDestination?.id).isEqualTo(R.id.gardenPlantsSearchFragment)
     }
 }
