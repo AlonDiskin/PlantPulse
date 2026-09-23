@@ -4,9 +4,13 @@ import android.R
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 
@@ -24,6 +28,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
     factory: FragmentFactory? = null,
     //@StyleRes themeResId: Int = com.google.android.material.R.style.Theme_MaterialComponents_DayNight,
+    navController: NavHostController? = null,
     crossinline action: Fragment.() -> Unit = {}
 ): ActivityScenario<HiltTestActivity> {
     val key = "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY"
@@ -36,6 +41,30 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     //.putExtra(key, themeResId)
 
     return ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
+
+        if (navController != null) {
+            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
+                object : FragmentManager.FragmentLifecycleCallbacks() {
+                    override fun onFragmentCreated(
+                        fm: FragmentManager,
+                        f: Fragment,
+                        savedInstanceState: Bundle?
+                    ) {
+                        if (f is T) {
+                            // Register the observer BEFORE onCreateView / onViewCreated run
+                            f.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                                if (viewLifecycleOwner != null) {
+                                    // This executes right as onCreateView returns the view, BEFORE onViewCreated runs!
+                                    Navigation.setViewNavController(f.requireView(), navController)
+                                }
+                            }
+                        }
+                    }
+                },
+                false
+            )
+        }
+
         val fragment: Fragment = factory?.instantiate(T::class.java.classLoader!!, T::class.java.name) ?: activity.supportFragmentManager.fragmentFactory.instantiate(
             T::class.java.classLoader!!,
             T::class.java.name

@@ -50,5 +50,19 @@ Feature: User garden plants adding
       | existing     | searched_plant |
       | non_existing | no_results     |
 
+  # Rule: Provide garden plants filters
+
+  @plants-filtered
+  Scenario Outline: Garden plants filtered
+    Given user has plants in garden
+    When he open user garden screen
+    And open filters screen
+    And apply filters for "<category>" category, "<season>" season, "<sun_care>" sun care, "<water_care>" water care
+    Then app should show only those plants that match filters
+    Examples:
+      | category   | season | sun_care | water_care |
+      | herb       | warm   | full     | low        |
+      | fruit      | cool   | partial  | high       |
+
 
 

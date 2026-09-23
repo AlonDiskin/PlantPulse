@@ -10,6 +10,10 @@ import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.data.local.toPlantEntity
 import com.alon.plantpulse.usergarden.data.util.createPlant
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
+import com.alon.plantpulse.usergarden.domain.PlantCategory
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -45,17 +49,17 @@ class PlantRepositoryImplTest {
                 "begonia",
                 "begonia",
                 "image_url_1",
-                null,
+                PlantCategory.HERB,
                 "",
                 null,
                 null,
                 null,
                 null,
                 null,
+                BloomingSeason.WARM,
                 null,
-                null,
-                null,
-                null,
+                PlantSunCare.FULL,
+                PlantWaterCare.MODERATE,
                 ""
             )
         )

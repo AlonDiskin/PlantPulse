@@ -14,7 +14,10 @@ import androidx.test.uiautomator.Until
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.data.local.Plant
 import com.alon.plantpulse.usergarden.data.local.PlantDao
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
 import com.alon.plantpulse.usergarden.domain.PlantCategory
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 import com.alon.plantpulse.util.DeviceUtil
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -127,10 +130,10 @@ class AddPlantJourney(private val plantDao: PlantDao) : GreenCoffeeSteps() {
             germinationSoilTemp = null,
             matureHeight = null,
             matureWidth = null,
-            bloomSeason = null,
+            bloomSeason = BloomingSeason.WARM,
             rowSpacing = null,
-            sunCare = null,
-            waterCare = null,
+            sunCare = PlantSunCare.PARTIAL,
+            waterCare = PlantWaterCare.HIGH,
             directions = ""
         )
     }

@@ -4,6 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
 import com.alon.plantpulse.usergarden.application.model.UserPlantDto
 import com.alon.plantpulse.usergarden.application.usecase.SearchUserPlantsUseCase
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
+import com.alon.plantpulse.usergarden.domain.PlantCategory
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
@@ -56,7 +60,10 @@ class UserGardenSearchViewModelTest {
             id = 1,
             commonName = "Aloe Vera",
             scientificName = "Aloe barbadensis miller",
-            category = "Succulent",
+            category = PlantCategory.HERB,
+            season = BloomingSeason.COOL,
+            sunCare = PlantSunCare.FULL,
+            waterCare = PlantWaterCare.LOW,
             imageUrl = "url"
         )
         val pagingData = PagingData.from(listOf(searchResults))

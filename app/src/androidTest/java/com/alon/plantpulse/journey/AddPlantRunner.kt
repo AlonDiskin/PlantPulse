@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 @RunWith(Parameterized::class)
 @LargeTest
-class AddPlantJourneyRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
+class AddPlantRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic

@@ -2,6 +2,7 @@ package com.alon.plantpulse.usergarden.featuretest.managegarden
 
 import android.os.Looper
 import android.view.View
+import androidx.lifecycle.ViewModelStore
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
@@ -40,11 +41,14 @@ class PlantRemovedFromGardenSteps(
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
-    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setViewModelStore(ViewModelStore())
+        setGraph(R.navigation.user_garden_nav_graph)
+        setCurrentDestination(R.id.userGardenFragment)
+    }
     private val plant = createPlant(1, "Snake Plant", "Sansevieria trifasciata", "url_snake")
 
     init {
-        navController.setGraph(R.navigation.user_garden_nav_graph)
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             if (destination.id == R.id.userPlantDetailFragment) {
                 scenario.onActivity { activity ->
@@ -85,12 +89,7 @@ class PlantRemovedFromGardenSteps(
 
     @When("^he open garden screen$")
     fun heOpenGardenScreen() {
-        scenario = launchFragmentInHiltContainer<UserGardenFragment>()
-        scenario.onActivity { activity ->
-            val fragment = activity.supportFragmentManager.fragments.first()!!
-            navController.setCurrentDestination(R.id.userGardenFragment)
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
+        scenario = launchFragmentInHiltContainer<UserGardenFragment>(navController = navController)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 

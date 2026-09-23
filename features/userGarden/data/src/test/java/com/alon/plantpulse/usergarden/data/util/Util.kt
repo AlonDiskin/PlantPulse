@@ -1,6 +1,10 @@
 package com.alon.plantpulse.usergarden.data.util
 
 import com.alon.plantpulse.usergarden.data.local.Plant
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
+import com.alon.plantpulse.usergarden.domain.PlantCategory
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 
 fun createPlant(
     id: Int,
@@ -13,17 +17,17 @@ fun createPlant(
         commonName = commonName,
         scientificName = scientificName,
         imageUrl = imageUrl,
-        category = null,
+        category = PlantCategory.FRUIT,
         subcategory = "",
         daysToGermination = null,
         daysToMaturity = null,
         germinationSoilTemp = null,
         matureHeight = null,
         matureWidth = null,
-        bloomSeason = null,
+        bloomSeason = BloomingSeason.COOL,
         rowSpacing = null,
-        sunCare = null,
-        waterCare = null,
+        sunCare = PlantSunCare.PARTIAL,
+        waterCare = PlantWaterCare.HIGH,
         directions = ""
     )
 }

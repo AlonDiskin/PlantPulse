@@ -24,5 +24,5 @@ fun UserPlantDto.toUiState() = UserPlantUiState(
     commonName = commonName,
     scientificName = scientificName,
     imageUrl = imageUrl,
-    category = category
+    category = category.name.lowercase()
 )

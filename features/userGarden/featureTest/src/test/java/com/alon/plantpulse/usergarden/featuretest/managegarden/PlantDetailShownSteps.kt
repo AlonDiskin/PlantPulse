@@ -2,6 +2,7 @@ package com.alon.plantpulse.usergarden.featuretest.managegarden
 
 import android.os.Looper
 import android.view.View
+import androidx.lifecycle.ViewModelStore
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
@@ -36,13 +37,16 @@ class PlantDetailShownSteps(
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
-    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setViewModelStore(ViewModelStore())
+        setGraph(R.navigation.user_garden_nav_graph)
+        setCurrentDestination(R.id.userGardenFragment)
+    }
     private val plant = createPlant(1, "Monstera Deliciosa", "Monstera deliciosa", "image_url_1").copy(
         directions = "Keep in bright indirect light. Water when the top inch of soil is dry."
     )
 
     init {
-        navController.setGraph(R.navigation.user_garden_nav_graph)
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             if (destination.id == R.id.userPlantDetailFragment) {
                 scenario.onActivity { activity ->
@@ -72,12 +76,7 @@ class PlantDetailShownSteps(
 
     @When("^he open garden screen$")
     fun heOpenGardenScreen() {
-        scenario = launchFragmentInHiltContainer<UserGardenFragment>()
-        scenario.onActivity { activity ->
-            val fragment = activity.supportFragmentManager.fragments.first()!!
-            navController.setCurrentDestination(R.id.userGardenFragment)
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
+        scenario = launchFragmentInHiltContainer<UserGardenFragment>(navController = navController)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 

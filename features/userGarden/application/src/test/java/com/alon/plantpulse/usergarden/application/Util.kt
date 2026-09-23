@@ -1,7 +1,11 @@
 package com.alon.plantpulse.usergarden.application
 
 import com.alon.plantpulse.usergarden.application.model.PlantDto
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
+import com.alon.plantpulse.usergarden.domain.PlantCategory
 import com.alon.plantpulse.usergarden.domain.PlantEntity
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 
 fun createPlantEntity(id: Int, commonName: String, scientificName: String, imageUrl: String) =
     PlantEntity(
@@ -9,17 +13,17 @@ fun createPlantEntity(id: Int, commonName: String, scientificName: String, image
         commonName = commonName,
         scientificName = scientificName,
         imageUrl = imageUrl,
-        category = null,
+        category = PlantCategory.HERB,
         subcategory = "",
         daysToGermination = null,
         daysToMaturity = null,
         germinationSoilTemp = null,
         matureHeight = null,
         matureWidth = null,
-        bloomSeason = null,
+        bloomSeason = BloomingSeason.WARM,
         rowSpacing = null,
-        sunCare = null,
-        waterCare = null,
+        sunCare = PlantSunCare.FULL,
+        waterCare = PlantWaterCare.MODERATE,
         directions = ""
     )
 

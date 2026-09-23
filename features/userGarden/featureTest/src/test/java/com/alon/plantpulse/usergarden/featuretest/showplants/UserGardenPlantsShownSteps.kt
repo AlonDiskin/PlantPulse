@@ -1,7 +1,10 @@
 package com.alon.plantpulse.usergarden.featuretest.showplants
 
 import android.os.Looper
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -33,6 +36,12 @@ class UserGardenPlantsShownSteps(private val plantDao: PlantDao,
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
     private lateinit var expectedUserPlants: MutableList<UserPlantUiState>
 
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setViewModelStore(ViewModelStore())
+        setGraph(R.navigation.user_garden_nav_graph)
+        setCurrentDestination(R.id.userGardenFragment)
+    }
+
     @Given("^user has plants in garden$")
     fun userHasPlantsInGarden() = runTest {
         val plants = listOf(
@@ -54,7 +63,7 @@ class UserGardenPlantsShownSteps(private val plantDao: PlantDao,
 
     @When("^he open garden screen$")
     fun heOpenGardenScreen() {
-        scenario = launchFragmentInHiltContainer<UserGardenFragment>()
+        scenario = launchFragmentInHiltContainer<UserGardenFragment>(navController = navController)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         Thread.sleep(2000)
     }

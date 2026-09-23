@@ -6,4 +6,9 @@
         android:icon="@drawable/search_24dp"
         android:title="Search"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/filter_list_24dp"
+        android:title="Filter"
+        app:showAsAction="ifRoom" />
 </menu>
