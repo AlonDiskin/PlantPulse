@@ -8,6 +8,7 @@ import androidx.paging.testing.asSnapshot
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.alon.plantpulse.usergarden.data.util.createPlant
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -90,29 +91,39 @@ class PlantDaoTest {
         assertThat(actualPlant).isEqualTo(expectedPlant)
     }
 
-    private fun createPlant(
-        id: Int,
-        commonName: String,
-        scientificName: String,
-        imageUrl: String
-    ): Plant {
-        return Plant(
-            id = id,
-            commonName = commonName,
-            scientificName = scientificName,
-            imageUrl = imageUrl,
-            category = null,
-            subcategory = "",
-            daysToGermination = null,
-            daysToMaturity = null,
-            germinationSoilTemp = null,
-            matureHeight = null,
-            matureWidth = null,
-            bloomSeason = null,
-            rowSpacing = null,
-            sunCare = null,
-            waterCare = null,
-            directions = ""
+    @Test
+    fun insertPlants_AndSearchForUserPlantByName() = runTest {
+        // Given plants
+        val userPlantDao = database.userPlantDao()
+        val plants: List<Plant> = listOf(
+            createPlant(1, "Monstera Deliciosa", "Monstera deliciosa", "image_url_1"),
+            createPlant(2, "Snake Plant", "Sansevieria trifasciata", "image_url_2"),
+            createPlant(3, "Swiss Cheese Plant", "Monstera adansonii", "image_url_3")
         )
+        val expectedResults: List<Plant> = listOf(
+            plants[0],
+            plants[2]
+        )
+
+        // When plants are inserted to plant dao
+        plantDao.insertAll(plants)
+        
+        // And some of them inserted to user plant dao as user plants
+        userPlantDao.add(UserPlant(1))
+        userPlantDao.add(UserPlant(3))
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When plant dao is searched for plants by name that are also user plants
+        val pagingFlow = Pager(
+            config = PagingConfig(pageSize = 10)
+        ) {
+            plantDao.searchUserPlants("Monstera")
+        }.flow
+
+        val actualPlants: List<Plant> = pagingFlow.asSnapshot()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then all matching plants paging is returned from plant dao
+        assertThat(actualPlants).isEqualTo(expectedResults)
     }
 }

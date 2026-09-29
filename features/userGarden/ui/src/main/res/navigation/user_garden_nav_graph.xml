@@ -13,6 +13,15 @@
         <action
             android:id="@+id/action_userGardenFragment_to_plantsSearchFragment"
             app:destination="@id/plantsSearchFragment" />
+        <action
+            android:id="@+id/action_userGardenFragment_to_userPlantDetailFragment"
+            app:destination="@id/userPlantDetailFragment" />
+        <action
+            android:id="@+id/action_userGardenFragment_to_gardenPlantsSearchFragment"
+            app:destination="@id/gardenPlantsSearchFragment" />
+        <action
+            android:id="@+id/action_userGardenFragment_to_gardenPlantsFiltersDialog"
+            app:destination="@id/gardenPlantsFiltersDialog" />
     </fragment>
 
     <fragment
@@ -20,5 +29,25 @@
         android:name="com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment"
         android:label="Add Plant"
         tools:layout="@layout/fragment_plants_search" />
+
+    <fragment
+        android:id="@+id/userPlantDetailFragment"
+        android:name="com.alon.plantpulse.usergarden.ui.controller.UserPlantDetailFragment"
+        android:label="Plant Detail"
+        tools:layout="@layout/fragment_plant_detail"/>
+    <fragment
+        android:id="@+id/gardenPlantsSearchFragment"
+        android:name="com.alon.plantpulse.usergarden.ui.controller.UserGardenSearchFragment"
+        android:label="Search garden"
+        tools:layout="@layout/fragment_garden_search">
+        <action
+            android:id="@+id/action_gardenPlantsSearchFragment_to_userPlantDetailFragment"
+            app:destination="@id/userPlantDetailFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/gardenPlantsFiltersDialog"
+        android:name="com.alon.plantpulse.usergarden.ui.controller.GardenPlantsFiltersDialog"
+        android:label=" "
+        tools:layout="@layout/dialog_user_plants_filter"/>
 
 </navigation>

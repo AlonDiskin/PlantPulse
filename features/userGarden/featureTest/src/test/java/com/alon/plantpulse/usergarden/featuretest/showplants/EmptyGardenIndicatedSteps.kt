@@ -2,10 +2,13 @@ package com.alon.plantpulse.usergarden.featuretest.showplants
 
 import android.os.Looper
 import android.view.View
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.testing.asSnapshot
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -29,6 +32,11 @@ import org.robolectric.Shadows
 class EmptyGardenIndicatedSteps(private val userPlantDao: UserPlantDao) : GreenCoffeeSteps() {
 
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setViewModelStore(ViewModelStore())
+        setGraph(R.navigation.user_garden_nav_graph)
+        setCurrentDestination(R.id.userGardenFragment)
+    }
 
     @Given("^user has no plants in garden$")
     fun userHasNoPlantsInGarden() = runTest {
@@ -46,7 +54,7 @@ class EmptyGardenIndicatedSteps(private val userPlantDao: UserPlantDao) : GreenC
     fun heOpenGardenScreen() {
         mockkStatic("com.alon.plantpulse.usergarden.ui.controller.AnimationUtilKt")
         every { any<View>().startAtmosphericPulse() } returns Unit
-        scenario = launchFragmentInHiltContainer<UserGardenFragment>()
+        scenario = launchFragmentInHiltContainer<UserGardenFragment>(navController = navController)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     id("com.google.devtools.ksp")
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -45,6 +46,7 @@ android {
 dependencies {
     // Project modules
     implementation(project(":features:userGarden:application"))
+    implementation(project(":features:userGarden:domain"))
 
     // Android core
     implementation(libs.androidx.appcompat)
@@ -89,5 +91,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.navigation.test)
+    testImplementation(libs.androidx.paging.testing)
     testImplementation("androidx.test.espresso:espresso-contrib:3.7.0")
 }

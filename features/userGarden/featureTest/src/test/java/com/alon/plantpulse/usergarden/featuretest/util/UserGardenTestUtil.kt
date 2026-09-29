@@ -4,6 +4,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
 import com.alon.plantpulse.usergarden.data.local.Plant
+import com.alon.plantpulse.usergarden.domain.BloomingSeason
+import com.alon.plantpulse.usergarden.domain.PlantCategory
+import com.alon.plantpulse.usergarden.domain.PlantSunCare
+import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
@@ -18,17 +22,17 @@ fun createPlant(
         commonName = commonName,
         scientificName = scientificName,
         imageUrl = imageUrl,
-        category = null,
+        category = PlantCategory.HERB,
         subcategory = "",
         daysToGermination = null,
         daysToMaturity = null,
         germinationSoilTemp = null,
         matureHeight = null,
         matureWidth = null,
-        bloomSeason = null,
+        bloomSeason = BloomingSeason.COOL,
         rowSpacing = null,
-        sunCare = null,
-        waterCare = null,
+        sunCare = PlantSunCare.FULL,
+        waterCare = PlantWaterCare.LOW,
         directions = ""
     )
 }

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!-- Binding variables for filter state can be added here -->
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="?attr/colorSurface"
+        tools:theme="@style/Theme.Material3.DayNight">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.HeadlineSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filter Garden"
+            android:layout_marginBottom="16dp"
+            android:textColor="?attr/colorOnSurface"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constrainedHeight="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Category Section -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="8dp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:chipSpacingVertical="4dp">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_vegetable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vegetable" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_herb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Herb" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_fruit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fruit" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_flower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flower" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_berry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Berry" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_cover_crop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cover Crop" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- Season Section -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Blooming Season"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="16dp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_season"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_Perennial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Perennial" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_cool"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cool Season" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_warm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Warm Season" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- Sun Care Section -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sun Requirement"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="16dp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_sun_care"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_full_sun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full Sun" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_partial_sun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Partial" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_shade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shade" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- Water Care Section -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Watering"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="16dp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_water_care"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_low_water"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Low" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_moderate_water"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Moderate" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:id="@+id/filter_hige_water"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="High" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="24dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reset"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear All"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply Filters"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

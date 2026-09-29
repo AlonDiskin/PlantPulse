@@ -14,7 +14,7 @@ When a specific functionalities for a given class is required, as the Tester, st
 
 ## UNIT TEST CASE IMPLEMENTATION PROTOCOL (TESTER)
 When asked to implement a test case, as the Tester, strictly follow this structure:
-1. **Implementation**: Implement the test case method only against the system under test! do not add any implementations directly to the system under test.
+1. **Implementation**: Implement the test case method only against the system under test! do not add any implementations directly to the system under test, or the production classes.
 
 ## FEATURE ACCEPTANCE TEST PROTOCOL (TESTER - RED PHASE)
 **Goal:** Create the package structure and class stubs to achieve a "compilable but failing" state for a **single specific scenario**.
@@ -53,24 +53,38 @@ When implementing the steps, strictly follow these technical requirements:
 
 ## CLASS FUNCTIONALITY IMPLEMENTATION PROTOCOL (POLICY DEVELOPER)
 When executing a class functionality implementation request as the Policy developer, strictly follow this structure:
-1. **General implementation rule**: implement the requested functionality only in the the class specified.
+1. **General implementation rule**: This is the "Green" phase of TDD. You must ONLY implement logic that satisfies the existing unit test cases: 1)Locate the test class for the target component. 2)Read the "Given-When-Then" steps within the test methods. 3)Implement the minimum code necessary in the production class to make those specific steps pass. 4)If a test case is empty or has a TODO, do not implement logic for it.
 2. **Dependency Definitions**: If a collaborator is missing, define it as an interface (or a pure Kotlin data class) with method signatures only. Do not provide implementation details.
 3. **Use cases implementations(application layer)**: Always use interfaces to contract the composition of collaborators for the use case.
 4. **Dependency Injection**: Use `@Inject` annotation in class constructor to inject dependencies .
 5. **Class package mapping for application module**: Use case classes go to "usecase" package. Interfaces go to "interfaces" package. Dto data classes to "model" package.
+6. **Implementation scope**: You should only ever implement code within the boundry of an application layer (application module)
 
 ## CLASS FUNCTIONALITY IMPLEMENTATION PROTOCOL (ANDROID DEVELOPER)
 When executing a class functionality implementation request as the Android developer, strictly follow this structure:
-1. **General implementation rule**: This is the "Green" phase of TDD. You must ONLY implement logic that satisfies the existing unit test cases: 1)Locate the test class for the target component. 2)Read the "Given-When-Then" steps within the test methods. 3)Implement the minimum code necessary in the production class to make those specific steps pass. 4)If a test case is empty or has a TODO, do not implement logic for it until the @Tester provides the steps. 
-2. **Missing Infrastructure Stubs**: If the class requires a concrete collaborator that doesn't exist (e.g., a Room DAO or a Helper class), create the file with the class name and method signatures only. Use TODO() for the bodies.
+1. **General implementation rule**: This is the "Green" phase of TDD. You must ONLY implement logic that satisfies the existing unit test cases: 1)Locate the test class for the target component. 2)Read the "Given-When-Then" steps within the test methods. 3)Implement the minimum code necessary in the production class only, not in the test class, to make those specific steps pass. 4)If a test case is empty or has a TODO, do not implement logic for it until the @Tester provides the steps. 
+2. **Missing Infrastructure Stubs**: If the production class requires a concrete collaborator that doesn't exist (e.g., a Room DAO or a Helper class), create the file with the class name and method signatures only. Use TODO() for the bodies.
 3. **View model implementation(ui layer)**: Use Liva data as the observable state holder for the view.
 4. **Android specific**: Android classes that considered entry points, and has injectable dependencies, should ise the `@AndroidEntryPoint & @OptionalInject` annotations.
 5. **Ui layer,data layer, device layer**: do not create interfaces for composition to implement class functionality.
 6. **Ui controller implementations(activity,fragment etc)**: always use view layout binding(created by data binding library) to call view members.
 7. **Dependency Injection**: use hilt library to inject dependencies.
 8. **Class package mapping for ui module**: View Model classes go to "viewmodel" package. Fragment, activity, dialog, list adapters go to "controller" package. Ui state data classes to "model" package.
+9. **Cardinal limitation:** You do not implement any test code, only read it for instructions.
 
 ## VIEW LAYOUT CREATION PROTOCOL (UI DESIGNER)
 When asked to create a view layout, as the UI Designer, strictly follow this structure: 
 1. **Data model**: if layout used to present an existing data model, bind it to view and use properties to present data.
+
+## TEST CASE PRODUCTION IMPLEMENTATION PROTOCOL (ANDROID DEVELOPER)
+When executing protocol request as the Android developer, strictly follow this structure:
+1. **General implementation rule**: This is the "Green" phase of TDD. You must ONLY implement logic that satisfies the existing unit test case: 1)Locate the requested test case. 2)Read the "Given-When-Then" steps within the test methods. 3)Implement the minimum code necessary in the production class only, not in the test class, to make those specific steps pass.
+2. **Missing Infrastructure Stubs**: If the production class requires a concrete collaborator that doesn't exist (e.g., a Room DAO or a Helper class), create the file with the class name and method signatures only. Use TODO() for the bodies.
+3. **View model implementation(ui layer)**: Use Liva data as the observable state holder for the view.
+4. **Android specific**: Android classes that considered entry points, and has injectable dependencies, should ise the `@AndroidEntryPoint & @OptionalInject` annotations.
+5. **Ui layer,data layer, device layer**: do not create interfaces for composition to implement class functionality.
+6. **Ui controller implementations(activity,fragment etc)**: always use view layout binding(created by data binding library) to call view members.
+7. **Dependency Injection**: use hilt library to inject dependencies.
+8. **Class package mapping for ui module**: View Model classes go to "viewmodel" package. Fragment, activity, dialog, list adapters go to "controller" package. Ui state data classes to "model" package.
+9. **Cardinal limitation:** You do not implement any test code, only read it for instructions.
 

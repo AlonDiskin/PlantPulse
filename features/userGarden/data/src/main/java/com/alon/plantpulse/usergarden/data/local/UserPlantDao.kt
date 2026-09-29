@@ -18,4 +18,7 @@ interface UserPlantDao {
 
     @Query("SELECT plantId FROM user_plants")
     fun getAllIds(): Flow<List<Int>>
+
+    @Query("DELETE FROM user_plants WHERE plantId = :id")
+    suspend fun delete(id: Int): Int
 }

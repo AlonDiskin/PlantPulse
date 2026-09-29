@@ -65,7 +65,7 @@ class UserPlantDaoTest {
     }
 
     @Test
-    fun insertPlants_AndAllPlantIds() = runTest {
+    fun insertPlants_AndGetAllPlantIds() = runTest {
         // Given
         val plants = listOf(
             UserPlant(1),
@@ -81,6 +81,30 @@ class UserPlantDaoTest {
 
         // When
         val actual = userPlantDao.getAllIds().first()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun insertPlants_AndDelete() = runTest {
+        // Given
+        val plants = listOf(
+            UserPlant(1),
+            UserPlant(2),
+            UserPlant(3)
+        )
+        val id = plants[1].plantId
+        val expected = 1
+
+        userPlantDao.add(plants[0])
+        userPlantDao.add(plants[1])
+        userPlantDao.add(plants[2])
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When
+        val actual = userPlantDao.delete(id)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
 
         // Then

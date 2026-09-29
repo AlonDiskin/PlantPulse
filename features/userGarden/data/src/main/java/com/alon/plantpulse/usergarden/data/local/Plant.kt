@@ -14,17 +14,17 @@ data class Plant(
     val commonName: String,
     val scientificName: String,
     val imageUrl: String,
-    val category: PlantCategory?,
+    val category: PlantCategory,
     val subcategory: String,
     val daysToGermination: GerminationDays?,
     val daysToMaturity: MaturityDays?,
     val germinationSoilTemp: GerminationSoilTemp?,
     val matureHeight: MatureHeight?,
     val matureWidth: MatureWidth?,
-    val bloomSeason: BloomingSeason?,
+    val bloomSeason: BloomingSeason,
     val rowSpacing: RowSpacing?,
-    val sunCare: PlantSunCare?,
-    val waterCare: PlantWaterCare?,
+    val sunCare: PlantSunCare,
+    val waterCare: PlantWaterCare,
     val directions: String
 )
 

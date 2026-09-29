@@ -73,4 +73,5 @@ dependencies {
     testImplementation(libs.androidx.paging.testing)
     testImplementation(libs.truth)
     testImplementation(libs.mockk)
+    testImplementation(libs.androidx.navigation.test)
 }

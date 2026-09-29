@@ -1,10 +1,13 @@
 package com.alon.plantpulse.usergarden.featuretest.addplant
 
 import android.os.Looper
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.testing.asSnapshot
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
@@ -38,6 +41,11 @@ class PlantAddedSteps(private val plantDao: PlantDao,
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
     private lateinit var plant: Plant
     private lateinit var query: String
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setViewModelStore(ViewModelStore())
+        setGraph(R.navigation.user_garden_nav_graph)
+        setCurrentDestination(R.id.userGardenFragment)
+    }
 
     @Given("^user want to add Snake Plant to garden$")
     fun userWantToAddSnakePlantToGarden() = runTest {
@@ -101,7 +109,7 @@ class PlantAddedSteps(private val plantDao: PlantDao,
 
     @When("^user open garden screen$")
     fun userOpenGardenScreen() {
-        scenario = launchFragmentInHiltContainer<UserGardenFragment>()
+        scenario = launchFragmentInHiltContainer<UserGardenFragment>(navController = navController)
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         Thread.sleep(2000)
     }

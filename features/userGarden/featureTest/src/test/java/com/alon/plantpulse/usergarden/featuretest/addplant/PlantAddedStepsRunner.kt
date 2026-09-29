@@ -30,7 +30,7 @@ class PlantAddedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("feature/add_plants.feature")
+                .withFeatureFromAssets("feature/add_plant_to_garden.feature")
                 .withTags("@add-plant")
                 .scenarios()
 
