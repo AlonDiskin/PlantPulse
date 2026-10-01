@@ -12,6 +12,8 @@ import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.data.local.toPlantEntity
 import com.alon.plantpulse.usergarden.domain.PlantEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -24,7 +26,8 @@ import javax.inject.Inject
  */
 class PlantRepositoryImpl @Inject constructor(
     private val plantDao: PlantDao,
-    private val userPlantDao: UserPlantDao
+    private val userPlantDao: UserPlantDao,
+    private val externalScope: CoroutineScope
 ) : PlantRepository {
 
     companion object {
@@ -62,12 +65,14 @@ class PlantRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addUserPlant(id: Int): Result<Unit, UserGardenError> {
-        try {
-            userPlantDao.add(UserPlant(id))
-            return Result.Success(Unit)
-        } catch (e: Exception) {
-            return Result.Failure(UserGardenError.Internal(e))
-        }
+        return externalScope.async {
+            try {
+                userPlantDao.add(UserPlant(id))
+                Result.Success(Unit)
+            } catch (e: Exception) {
+                Result.Failure(UserGardenError.Internal(e))
+            }
+        }.await()
     }
 
     override fun getUserPlantIds(): Flow<Set<Int>> {
@@ -85,12 +90,14 @@ class PlantRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteUserPlant(id: Int): Result<Unit, UserGardenError> {
-        try {
-            userPlantDao.delete(id)
-            return Result.Success(Unit)
-        } catch (e: Exception) {
-            return Result.Failure(UserGardenError.Internal(e))
-        }
+        return externalScope.async {
+            try {
+                userPlantDao.delete(id)
+                Result.Success(Unit)
+            } catch (e: Exception) {
+                Result.Failure(UserGardenError.Internal(e))
+            }
+        }.await()
     }
 
     override fun searchUserPlants(query: String): Flow<PagingData<PlantEntity>> {
