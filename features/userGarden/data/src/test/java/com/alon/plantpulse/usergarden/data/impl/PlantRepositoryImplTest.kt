@@ -22,6 +22,8 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -34,10 +36,11 @@ class PlantRepositoryImplTest {
     // Collaborators
     private val plantDao: PlantDao = mockk()
     private val userPlantDao: UserPlantDao = mockk()
+    private val testScope = TestScope(UnconfinedTestDispatcher())
 
     @Before
     fun setup() {
-        repo = PlantRepositoryImpl(plantDao, userPlantDao)
+        repo = PlantRepositoryImpl(plantDao, userPlantDao, testScope)
     }
 
     @Test
