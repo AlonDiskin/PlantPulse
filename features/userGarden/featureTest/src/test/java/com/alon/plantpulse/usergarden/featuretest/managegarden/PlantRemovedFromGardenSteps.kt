@@ -21,10 +21,10 @@ import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment
 import com.alon.plantpulse.usergarden.ui.controller.UserPlantDetailFragment
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And

@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.usecase.AddUserPlantUseCase
 import com.alon.plantpulse.usergarden.application.usecase.SearchPlantsUseCase
 import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
 import com.alon.plantpulse.usergarden.ui.model.toUiState
+import com.alon.plantpulse.common.application.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow

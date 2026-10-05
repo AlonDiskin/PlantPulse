@@ -17,9 +17,9 @@ import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.PlantsSearchFragment
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.google.android.material.search.SearchView
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given

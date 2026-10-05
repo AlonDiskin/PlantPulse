@@ -1,6 +1,8 @@
 package com.alon.plantpulse.usergarden.di
 
+import com.alon.plantpulse.plantcare.api.PlantCareDataProvider
 import com.alon.plantpulse.usergarden.application.interfaces.PlantRepository
+import com.alon.plantpulse.usergarden.data.impl.PlantCareDataProviderImpl
 import com.alon.plantpulse.usergarden.data.impl.PlantRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -15,4 +17,8 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun bindPlantRepository(impl: PlantRepositoryImpl): PlantRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindPlantCareDataProvider(impl: PlantCareDataProviderImpl): PlantCareDataProvider
 }

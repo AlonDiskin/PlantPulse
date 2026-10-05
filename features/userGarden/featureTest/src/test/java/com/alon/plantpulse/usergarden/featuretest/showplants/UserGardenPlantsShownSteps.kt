@@ -18,10 +18,10 @@ import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.atPosition
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
 import com.alon.plantpulse.usergarden.featuretest.util.hasItemCount
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment
 import com.alon.plantpulse.usergarden.ui.controller.UserPlantsAdapter
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.usergarden.ui.model.UserPlantUiState
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given

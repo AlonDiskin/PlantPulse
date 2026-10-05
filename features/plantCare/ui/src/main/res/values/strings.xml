@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_message_internal_error">feature is currently unavailable</string>
+    <string name="error_message_light_sensor_not_exist">device has no light sensor</string>
+</resources>

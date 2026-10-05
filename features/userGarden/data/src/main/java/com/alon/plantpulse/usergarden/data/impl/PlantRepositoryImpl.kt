@@ -5,13 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.alon.plantpulse.usergarden.application.interfaces.PlantRepository
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.data.local.toPlantEntity
 import com.alon.plantpulse.usergarden.domain.PlantEntity
+import com.alon.plantpulse.common.application.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow

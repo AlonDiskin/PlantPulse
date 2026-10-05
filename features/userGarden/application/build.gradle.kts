@@ -17,6 +17,7 @@ kotlin {
 dependencies {
     // Project modules
     implementation(project(":features:userGarden:domain"))
+    api(project(":features:common:application"))
 
     // Kotlin flow
     implementation(libs.kotlinx.coroutines.core)

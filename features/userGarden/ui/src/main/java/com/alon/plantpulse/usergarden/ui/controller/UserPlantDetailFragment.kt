@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
+import javax.inject.Inject
 
 /**
  * A fragment that displays the detailed information of a specific plant in the user's garden.
@@ -27,6 +28,8 @@ class UserPlantDetailFragment : Fragment() {
     private val viewModel: UserPlantDetailViewModel by viewModels()
     private var _binding: FragmentPlantDetailBinding? = null
     private val binding get() = _binding!!
+    @Inject
+    lateinit var navigator: UserGardenNavigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +48,7 @@ class UserPlantDetailFragment : Fragment() {
         
         setupObservers()
         setupListeners()
+        setOnFabClickListener()
     }
 
     private fun setupObservers() {
@@ -90,6 +94,12 @@ class UserPlantDetailFragment : Fragment() {
         }
     }
 
+    private fun setOnFabClickListener() {
+        binding.onPlantCareClickListener = View.OnClickListener {
+            onPlantCareClick()
+        }
+    }
+
     private fun showError(error: UserGardenError) {
         val messageResId = when (error) {
             is UserGardenError.Internal -> R.string.error_message_internal_error
@@ -101,5 +111,11 @@ class UserPlantDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onPlantCareClick() {
+        viewModel.uiState.value?.id?.let { id ->
+            navigator.navigateToPlantCare(id)
+        }
     }
 }

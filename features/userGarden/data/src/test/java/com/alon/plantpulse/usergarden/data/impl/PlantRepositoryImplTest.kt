@@ -2,7 +2,6 @@ package com.alon.plantpulse.usergarden.data.impl
 
 import androidx.paging.testing.asPagingSourceFactory
 import androidx.paging.testing.asSnapshot
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.data.local.Plant
 import com.alon.plantpulse.usergarden.data.local.PlantDao
@@ -14,6 +13,7 @@ import com.alon.plantpulse.usergarden.domain.BloomingSeason
 import com.alon.plantpulse.usergarden.domain.PlantCategory
 import com.alon.plantpulse.usergarden.domain.PlantSunCare
 import com.alon.plantpulse.usergarden.domain.PlantWaterCare
+import com.alon.plantpulse.common.application.Result
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

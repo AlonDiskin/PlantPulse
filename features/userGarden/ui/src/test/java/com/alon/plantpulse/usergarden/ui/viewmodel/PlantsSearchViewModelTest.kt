@@ -3,11 +3,11 @@ package com.alon.plantpulse.usergarden.ui.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
 import com.alon.plantpulse.usergarden.application.model.PlantDto
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.usecase.AddUserPlantUseCase
 import com.alon.plantpulse.usergarden.application.usecase.SearchPlantsUseCase
 import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
+import com.alon.plantpulse.common.application.Result
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

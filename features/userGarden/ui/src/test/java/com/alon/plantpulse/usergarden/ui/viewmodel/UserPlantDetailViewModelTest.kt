@@ -3,12 +3,12 @@ package com.alon.plantpulse.usergarden.ui.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.model.UserPlantDetailDto
 import com.alon.plantpulse.usergarden.application.usecase.DeleteUserPlantUseCase
 import com.alon.plantpulse.usergarden.application.usecase.GetUserPlantDataUseCase
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDeleteUiState
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDetailUiState
+import com.alon.plantpulse.common.application.Result
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

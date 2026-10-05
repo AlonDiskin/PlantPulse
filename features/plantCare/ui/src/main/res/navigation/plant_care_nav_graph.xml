@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/plant_care_nav_graph"
+    app:startDestination="@id/plantCareDialog">
+
+    <fragment
+        android:id="@+id/lightMeterFragment"
+        android:name="com.alon.plantpulse.plantcare.ui.controller.LightMeterFragment"
+        android:label=""
+        tools:layout="@layout/fragment_light_meter"/>
+    <dialog
+        android:id="@+id/plantCareDialog"
+        android:name="com.alon.plantpulse.plantcare.ui.controller.PlantCareDialog"
+        android:label="PlantCareDialog"
+        tools:layout="@layout/dialog_plant_care_options">
+        <action
+            android:id="@+id/action_plantCareDialog_to_lightMeterFragment"
+            app:destination="@id/lightMeterFragment" />
+    </dialog>
+</navigation>

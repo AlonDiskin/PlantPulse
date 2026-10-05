@@ -23,10 +23,10 @@ import com.alon.plantpulse.usergarden.domain.PlantSunCare
 import com.alon.plantpulse.usergarden.domain.PlantWaterCare
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
 import com.alon.plantpulse.usergarden.featuretest.util.hasItemCount
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.GardenPlantsFiltersDialog
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given

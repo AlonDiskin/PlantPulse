@@ -44,6 +44,7 @@ dependencies {
     // Project modules
     implementation(project(":features:userGarden:di"))
     implementation(project(":features:home:ui"))
+    implementation(project(":features:plantCare:di"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

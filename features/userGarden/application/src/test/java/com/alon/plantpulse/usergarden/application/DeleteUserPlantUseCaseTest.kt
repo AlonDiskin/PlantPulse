@@ -1,8 +1,8 @@
 package com.alon.plantpulse.usergarden.application
 
 import com.alon.plantpulse.usergarden.application.interfaces.PlantRepository
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.usecase.DeleteUserPlantUseCase
+import com.alon.plantpulse.common.application.Result
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify

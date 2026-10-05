@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.library)
     id("com.google.devtools.ksp")
@@ -42,6 +40,7 @@ dependencies {
     api(project(":features:userGarden:application"))
     api(project(":features:userGarden:domain"))
     api(project(":features:userGarden:data"))
+    api(project(":features:plantCare:api"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

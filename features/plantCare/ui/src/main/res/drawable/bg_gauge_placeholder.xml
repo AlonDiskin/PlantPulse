@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The Outer Track (Grey) -->
+    <item>
+        <shape android:shape="ring"
+            android:innerRadiusRatio="3"
+            android:thickness="8dp"
+            android:useLevel="false"> <!-- Changed to false to show the full ring by default -->
+            <solid android:color="?attr/colorSurfaceVariant" />
+        </shape>
+    </item>
+
+    <!-- The Sun Icon in the middle bottom -->
+    <item
+        android:drawable="@drawable/wb_sunny_24dp"
+        android:gravity="bottom|center_horizontal"
+        android:bottom="8dp"
+        android:tint="?attr/colorOutline" /> <!-- Use tint directly on the item -->
+</layer-list>
