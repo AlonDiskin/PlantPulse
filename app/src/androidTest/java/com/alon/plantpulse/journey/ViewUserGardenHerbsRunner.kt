@@ -19,14 +19,14 @@ import javax.inject.Inject
 @HiltAndroidTest
 @RunWith(Parameterized::class)
 @LargeTest
-class AddPlantRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
+class ViewUserGardenHerbsRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun scenarios(): Iterable<ScenarioConfig> {
             return GreenCoffeeConfig()
-                .withFeatureFromAssets("assets/feature/add_plant_to_garden_journey.feature")
+                .withFeatureFromAssets("assets/feature/view_all_garden_herbs_journey.feature")
                 .scenarios()
         }
     }
@@ -40,6 +40,6 @@ class AddPlantRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
     @Test
     fun test() {
         hiltRule.inject()
-        start(AddPlantJourney(db.plantDao()))
+        start(ViewUserGardenHerbsJourney(db.plantDao(), db.userPlantDao()))
     }
 }

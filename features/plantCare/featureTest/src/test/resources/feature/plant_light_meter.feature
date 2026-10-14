@@ -13,9 +13,17 @@ Feature: User garden plants light measuring
 
   # Rule: enable light data sharing
 
-  @data_shared
+  @data-shared
   Scenario: Light measurement shared
     Given user has a plant in garden
     When he open plant light meter screen
     And select to share the measured light data
     Then app should open device sharing menu
+
+  # Rule: provide instructions for light meter usage
+
+  @instructions-provided
+  Scenario: Light meter instructions provided
+    Given user has a plant in garden
+    When he open plant light meter screen
+    Then app should show user instructions for light meter usage

@@ -1,5 +1,6 @@
 package com.alon.plantpulse.journey
 
+import android.hardware.SensorManager
 import androidx.test.filters.LargeTest
 import com.alon.plantpulse.di.AppDataModule
 import com.alon.plantpulse.util.TestDatabase
@@ -19,14 +20,14 @@ import javax.inject.Inject
 @HiltAndroidTest
 @RunWith(Parameterized::class)
 @LargeTest
-class GardenHerbsListedRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
+class DiagnosePlantLightRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun scenarios(): Iterable<ScenarioConfig> {
             return GreenCoffeeConfig()
-                .withFeatureFromAssets("assets/feature/view_all_garden_herbs_journey.feature")
+                .withFeatureFromAssets("assets/feature/diagnose_plant_light_journey.feature")
                 .scenarios()
         }
     }
@@ -36,10 +37,12 @@ class GardenHerbsListedRunner(scenario: ScenarioConfig) :  GreenCoffeeTest(scena
 
     @Inject
     lateinit var db: TestDatabase
+    @Inject
+    lateinit var mockSensorManager: SensorManager
 
     @Test
     fun test() {
         hiltRule.inject()
-        start(GardenHerbsListedJourney(db.plantDao(), db.userPlantDao()))
+        start(DiagnosePlantLightJourney(db.plantDao(), db.userPlantDao(), mockSensorManager))
     }
 }

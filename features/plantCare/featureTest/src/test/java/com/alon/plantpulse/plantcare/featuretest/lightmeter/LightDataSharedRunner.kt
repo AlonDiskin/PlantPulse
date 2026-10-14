@@ -33,7 +33,7 @@ class LightDataSharedRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("feature/plant_light_meter.feature")
-                .withTags("@data_shared")
+                .withTags("@data-shared")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {

@@ -22,6 +22,21 @@
         tools:theme="@style/Theme.Material3.DayNight"
         tools:context="com.alon.plantpulse.plantcare.ui.controller.LightMeterFragment">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_instruction_label"
+            style="@style/TextAppearance.Material3.LabelLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/instructions_light_meter"
+            android:textColor="?attr/colorOutline"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/wb_sunny_24dp"
+            app:drawableTint="?attr/colorOutline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_share"
             style="@style/Widget.Material3.Button.IconButton"
@@ -30,7 +45,7 @@
             android:onClick="@{onShareClickListener}"
             app:icon="@drawable/share_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_instruction_label"
             android:contentDescription="Share diagnostic" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -38,11 +53,12 @@
             style="@style/TextAppearance.Material3.HeadlineMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@{plantDiagnostic.plantName}"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_instruction_label"
             tools:text="Snake Plant" />
 
         <com.google.android.material.textview.MaterialTextView

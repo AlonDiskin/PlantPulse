@@ -41,7 +41,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_light_meter"
                 style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
                 android:gravity="start|center_vertical"
@@ -56,7 +56,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_water_reminder"
                 style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="64dp"
                 android:layout_marginBottom="24dp"
                 android:gravity="start|center_vertical"

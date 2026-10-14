@@ -38,6 +38,15 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
@@ -87,4 +96,6 @@ dependencies {
     androidTestImplementation(libs.androidx.paging.testing)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
 }

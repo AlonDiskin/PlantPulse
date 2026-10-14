@@ -232,6 +232,16 @@ class LightMeterFragmentTest {
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 
+    @Test
+    fun whenCreated_ShouldDisplayUsageInstructions() {
+        // When fragment is created (handled in setUp)
+
+        // Then it should show the instruction label with correct text
+        onView(withId(R.id.tv_instruction_label))
+            .check(matches(isDisplayed()))
+            .check(matches(withText(R.string.instructions_light_meter)))
+    }
+
     private fun withProgress(expectedProgress: Int) = object : androidx.test.espresso.matcher.BoundedMatcher<View, android.widget.ProgressBar>(android.widget.ProgressBar::class.java) {
         override fun describeTo(description: org.hamcrest.Description) {
             description.appendText("with progress: $expectedProgress")

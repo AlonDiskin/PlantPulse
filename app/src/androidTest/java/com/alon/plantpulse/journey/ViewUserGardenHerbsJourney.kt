@@ -22,10 +22,9 @@ import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 
-class GardenHerbsListedJourney(
+class ViewUserGardenHerbsJourney(
     private val plantDao: PlantDao,
     private val userPlantDao: UserPlantDao
 ) : GreenCoffeeSteps() {

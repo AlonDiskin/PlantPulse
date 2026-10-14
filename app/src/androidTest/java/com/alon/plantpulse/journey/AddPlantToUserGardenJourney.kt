@@ -26,7 +26,7 @@ import com.mauriciotogneri.greencoffee.annotations.When
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
 
-class AddPlantJourney(private val plantDao: PlantDao) : GreenCoffeeSteps() {
+class AddPlantToUserGardenJourney(private val plantDao: PlantDao) : GreenCoffeeSteps() {
 
     private lateinit var plant: Plant
     private lateinit var query: String
