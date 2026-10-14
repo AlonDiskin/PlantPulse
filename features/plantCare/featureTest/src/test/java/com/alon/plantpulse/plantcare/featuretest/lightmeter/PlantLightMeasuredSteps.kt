@@ -124,6 +124,11 @@ class PlantLightMeasuredSteps(
         onView(withId(R.id.tv_current_lux)).check(matches(withText(currentLuxFormatted)))
     }
 
+    @And("^light meter should conclude if light amount is sufficient for viewed plant$")
+    fun lightMeterShouldConcludeIfLightAmountIsSufficientForViewedPlant() {
+        onView(withId(R.id.tv_light_status)).check(matches(withText("Sufficient")))
+    }
+
     private fun createSensorEvent(value: Float): SensorEvent {
         val event = mockk<SensorEvent>()
         val sensorField = SensorEvent::class.java.getField("sensor")

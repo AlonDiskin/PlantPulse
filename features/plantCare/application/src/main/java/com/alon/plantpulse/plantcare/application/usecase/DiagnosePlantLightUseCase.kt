@@ -9,11 +9,13 @@ import com.alon.plantpulse.plantcare.application.model.LightStatus
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
 import com.alon.plantpulse.plantcare.domain.DiagnosticPlantEntity
 import com.alon.plantpulse.plantcare.domain.PlantLightRange
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -25,10 +27,12 @@ import javax.inject.Inject
  *
  * @property lightSensorGateway Gateway to access real-time device light sensor data.
  * @property plantCareDataProvider Provider for the care requirements of the plant being diagnosed.
+ * @property defaultDispatcher Dispatcher for executing the diagnostic flow operations.
  */
 class DiagnosePlantLightUseCase @Inject constructor(
     private val lightSensorGateway: LightSensorGateway,
-    private val plantCareDataProvider: PlantCareDataProvider
+    private val plantCareDataProvider: PlantCareDataProvider,
+    private val defaultDispatcher: CoroutineDispatcher
 ) {
 
     /**
@@ -81,6 +85,6 @@ class DiagnosePlantLightUseCase @Inject constructor(
                     }
                 }
             }
-        }
+        }.flowOn(defaultDispatcher)
     }
 }

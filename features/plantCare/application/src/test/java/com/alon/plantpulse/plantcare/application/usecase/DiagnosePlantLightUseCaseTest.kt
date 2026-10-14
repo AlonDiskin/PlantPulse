@@ -11,19 +11,23 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 /**
  * Unit tests for [DiagnosePlantLightUseCase] using JUnit 5.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class DiagnosePlantLightUseCaseTest {
 
     private val lightSensorGateway: LightSensorGateway = mockk()
     private val plantCareDataProvider: PlantCareDataProvider = mockk()
-    private val useCase = DiagnosePlantLightUseCase(lightSensorGateway, plantCareDataProvider)
+    private val testDispatcher = UnconfinedTestDispatcher()
+    private val useCase = DiagnosePlantLightUseCase(lightSensorGateway, plantCareDataProvider, testDispatcher)
 
     private val plantId = 1
     private val plantData = PlantCareData(

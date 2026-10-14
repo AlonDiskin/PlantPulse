@@ -7,9 +7,11 @@ import android.hardware.SensorManager
 import com.alon.plantpulse.common.application.Result
 import com.alon.plantpulse.plantcare.application.interfaces.LightSensorGateway
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -21,8 +23,11 @@ import javax.inject.Inject
  * management by unregistering the sensor listener when the flow is no longer collected.
  *
  * @property sensorManager The Android system service used to access hardware sensors.
+ * @property defaultDispatcher The CoroutineDispatcher on which the sensor flow will be executed.
  */
-class LightSensorGatewayImpl @Inject constructor(private val sensorManager: SensorManager) : LightSensorGateway {
+class LightSensorGatewayImpl @Inject constructor(
+    private val sensorManager: SensorManager,
+    private val defaultDispatcher: CoroutineDispatcher) : LightSensorGateway {
 
     override fun getLightLuxFlow(): Flow<Result<Float, PlantCareError>> {
         return callbackFlow {
@@ -63,6 +68,6 @@ class LightSensorGatewayImpl @Inject constructor(private val sensorManager: Sens
             awaitClose {
                 sensorManager.unregisterListener(listener)
             }
-        }
+        }.flowOn(defaultDispatcher)
     }
 }

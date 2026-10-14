@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -22,5 +24,11 @@ object TestFeatureProvider {
     @Singleton
     fun provideLightSensor(): SensorManager {
         return mockk()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDefaultDispatcher(): CoroutineDispatcher {
+        return Dispatchers.Main
     }
 }

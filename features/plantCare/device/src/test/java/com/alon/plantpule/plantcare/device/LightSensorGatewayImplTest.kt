@@ -15,6 +15,7 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -31,11 +32,12 @@ class LightSensorGatewayImplTest {
 
     private val sensorManager: SensorManager = mockk(relaxed = true)
     private val lightSensor: Sensor = mockk()
+    private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var gateway: LightSensorGatewayImpl
 
     @Before
     fun setUp() {
-        gateway = LightSensorGatewayImpl(sensorManager)
+        gateway = LightSensorGatewayImpl(sensorManager, testDispatcher)
         every { lightSensor.type } returns Sensor.TYPE_LIGHT
     }
 
