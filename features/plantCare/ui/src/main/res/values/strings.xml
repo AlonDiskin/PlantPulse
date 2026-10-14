@@ -2,4 +2,6 @@
 <resources>
     <string name="error_message_internal_error">feature is currently unavailable</string>
     <string name="error_message_light_sensor_not_exist">device has no light sensor</string>
+    <string name="message_wait_for_data">Please wait for data to load before sharing</string>
+    <string name="share_diagnostic_text">Light diagnostic for %1$s: %2$s lux (%3$s status). Recommended range: %4$s.</string>
 </resources>

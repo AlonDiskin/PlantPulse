@@ -10,6 +10,9 @@
         <variable
             name="plantDiagnostic"
             type="com.alon.plantpulse.plantcare.ui.model.PlantCareDiagnosticUiState" />
+        <variable
+            name="onShareClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +21,17 @@
         android:padding="24dp"
         tools:theme="@style/Theme.Material3.DayNight"
         tools:context="com.alon.plantpulse.plantcare.ui.controller.LightMeterFragment">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_share"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{onShareClickListener}"
+            app:icon="@drawable/share_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Share diagnostic" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_plant_name"
@@ -57,7 +71,8 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_light_status" />
+            app:layout_constraintTop_toBottomOf="@id/tv_light_status"
+            tools:progress="2000"/>
 
         <LinearLayout
             android:id="@+id/ll_current_lux"

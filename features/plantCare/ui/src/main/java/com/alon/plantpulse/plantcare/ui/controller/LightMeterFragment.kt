@@ -1,14 +1,18 @@
 package com.alon.plantpulse.plantcare.ui.controller
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
 import com.alon.plantpulse.plantcare.ui.R
 import com.alon.plantpulse.plantcare.ui.databinding.FragmentLightMeterBinding
+import com.alon.plantpulse.plantcare.ui.model.LightMeterStatusUiState
+import com.alon.plantpulse.plantcare.ui.model.PlantCareDiagnosticUiState
 import com.alon.plantpulse.plantcare.ui.viewmodel.LightMeterViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +46,7 @@ class LightMeterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
+        setupListeners()
     }
 
     private fun setupObservers() {
@@ -62,6 +67,35 @@ class LightMeterFragment : Fragment() {
 
             state.error?.let { showErrorNotification(it) }
         }
+    }
+
+    private fun setupListeners() {
+        binding.onShareClickListener = View.OnClickListener {
+            val diagnostic = viewModel.plantDiagnostic.value
+            val status = viewModel.meterStatus.value
+
+            if (diagnostic == null || diagnostic.plantName.isEmpty() || status == null) {
+                Toast.makeText(requireContext(), R.string.message_wait_for_data, Toast.LENGTH_SHORT).show()
+            } else {
+                shareDiagnostic(diagnostic, status)
+            }
+        }
+    }
+
+    private fun shareDiagnostic(diagnostic: PlantCareDiagnosticUiState, status: LightMeterStatusUiState) {
+        val shareText = getString(
+            R.string.share_diagnostic_text,
+            diagnostic.plantName,
+            status.luxValue,
+            status.status,
+            diagnostic.recommendedRange
+        )
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        }
+        startActivity(Intent.createChooser(intent, null))
     }
 
     private fun showErrorNotification(error: PlantCareError) {

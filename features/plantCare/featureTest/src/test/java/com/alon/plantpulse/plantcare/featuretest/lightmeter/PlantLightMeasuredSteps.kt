@@ -114,7 +114,7 @@ class PlantLightMeasuredSteps(
     @And("^display current light measure, with plant recommended scale$")
     fun displayCurrentLightMeasureWithPlantRecommendedScale() {
         if (listenerSlot.isCaptured) {
-            val sensorEvent = createSensorEvent(currentLuxValue)
+            val sensorEvent = createSensorEvent(currentLuxValue,lightSensor)
             listenerSlot.captured.onSensorChanged(sensorEvent)
             Shadows.shadowOf(Looper.getMainLooper()).idle()
         }
@@ -129,16 +129,16 @@ class PlantLightMeasuredSteps(
         onView(withId(R.id.tv_light_status)).check(matches(withText("Sufficient")))
     }
 
-    private fun createSensorEvent(value: Float): SensorEvent {
-        val event = mockk<SensorEvent>()
-        val sensorField = SensorEvent::class.java.getField("sensor")
-        sensorField.isAccessible = true
-        sensorField.set(event, lightSensor)
-
-        val valuesField = SensorEvent::class.java.getField("values")
-        valuesField.isAccessible = true
-        valuesField.set(event, floatArrayOf(value))
-
-        return event
-    }
+//    private fun createSensorEvent(value: Float): SensorEvent {
+//        val event = mockk<SensorEvent>()
+//        val sensorField = SensorEvent::class.java.getField("sensor")
+//        sensorField.isAccessible = true
+//        sensorField.set(event, lightSensor)
+//
+//        val valuesField = SensorEvent::class.java.getField("values")
+//        valuesField.isAccessible = true
+//        valuesField.set(event, floatArrayOf(value))
+//
+//        return event
+//    }
 }

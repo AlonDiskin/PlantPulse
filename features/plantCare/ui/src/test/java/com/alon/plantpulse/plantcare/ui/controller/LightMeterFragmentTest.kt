@@ -1,5 +1,7 @@
 package com.alon.plantpulse.plantcare.ui.controller
 
+import android.content.Context
+import android.content.Intent
 import android.os.Looper
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -7,28 +9,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelLazy
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasType
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
-import com.alon.plantpulse.plantcare.ui.R
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
+import com.alon.plantpulse.plantcare.ui.R
 import com.alon.plantpulse.plantcare.ui.model.LightMeterStatusUiState
 import com.alon.plantpulse.plantcare.ui.model.PlantCareDiagnosticUiState
 import com.alon.plantpulse.plantcare.ui.viewmodel.LightMeterViewModel
+import com.google.android.material.button.MaterialButton
+import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Shadows
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowToast
 
 /**
  * Unit tests for [LightMeterFragment] using Robolectric.
@@ -39,6 +51,8 @@ class LightMeterFragmentTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    private val context: Context = ApplicationProvider.getApplicationContext()
 
     // Activity scenario to host fragment under test.
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
@@ -149,6 +163,73 @@ class LightMeterFragmentTest {
 
         // Then
         onView(withText(R.string.error_message_light_sensor_not_exist)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenShareClicked_AndDataNotLoaded_ShouldShowMessageAndNotOpenChooser() {
+        // Given - LiveData are null by default
+        Intents.init()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When
+        scenario.onActivity { activity ->
+            activity.findViewById<MaterialButton>(R.id.btn_share).performClick()
+            Shadows.shadowOf(Looper.getMainLooper()).idle()
+        }
+
+        // Then
+        val toast = ShadowToast.getTextOfLatestToast()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        assertThat(toast)
+            .isEqualTo(context.getString(R.string.message_wait_for_data))
+
+        // And no intent should be sent
+        assertThat(Intents.getIntents()).isEmpty()
+        Intents.release()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+    }
+
+    @Test
+    fun whenShareClicked_AndDataLoaded_ShouldOpenChooserWithCorrectData() {
+        // Given
+        val diagState = PlantCareDiagnosticUiState(plantName = "Monstera", recommendedRange = "1,000 ~ 5,000 Lux")
+        val statusState = LightMeterStatusUiState(luxValue = "1,250", status = "Sufficient")
+
+        Intents.init()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        
+        scenario.onActivity {
+            plantDiagnosticLiveData.value = diagState
+            meterStatusLiveData.value = statusState
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        val expectedText = context.getString(
+            R.string.share_diagnostic_text,
+            diagState.plantName,
+            statusState.luxValue,
+            statusState.status,
+            diagState.recommendedRange
+        )
+
+        // When
+        scenario.onActivity { activity ->
+            activity.findViewById<MaterialButton>(R.id.btn_share).performClick()
+            Shadows.shadowOf(Looper.getMainLooper()).idle()
+        }
+
+        // Then
+        intended(allOf(
+            hasAction(Intent.ACTION_CHOOSER),
+            hasExtra(Intent.EXTRA_INTENT, allOf(
+                hasAction(Intent.ACTION_SEND),
+                hasType("text/plain"),
+                hasExtra(Intent.EXTRA_TEXT, expectedText)
+            ))
+        ))
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        Intents.release()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 
     private fun withProgress(expectedProgress: Int) = object : androidx.test.espresso.matcher.BoundedMatcher<View, android.widget.ProgressBar>(android.widget.ProgressBar::class.java) {

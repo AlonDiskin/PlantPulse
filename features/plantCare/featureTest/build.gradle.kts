@@ -67,4 +67,5 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.navigation.test)
+    testImplementation(libs.androidx.espresso.intents)
 }

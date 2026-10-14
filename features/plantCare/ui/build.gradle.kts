@@ -75,6 +75,7 @@ dependencies {
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.espresso.intents)
     testImplementation(libs.truth)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
