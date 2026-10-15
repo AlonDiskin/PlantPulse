@@ -15,10 +15,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment
 import com.alon.plantpulse.usergarden.ui.controller.startAtmosphericPulse
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given

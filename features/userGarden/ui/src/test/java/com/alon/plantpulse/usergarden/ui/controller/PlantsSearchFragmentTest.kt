@@ -25,8 +25,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.usergarden.ui.model.AddPlantUiState
 import com.alon.plantpulse.usergarden.ui.model.PlantUiState
 import com.alon.plantpulse.usergarden.ui.util.atPosition

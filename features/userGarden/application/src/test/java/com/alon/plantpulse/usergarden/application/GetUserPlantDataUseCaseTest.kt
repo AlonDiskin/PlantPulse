@@ -1,10 +1,10 @@
 package com.alon.plantpulse.usergarden.application
 
 import com.alon.plantpulse.usergarden.application.interfaces.PlantRepository
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.application.model.toUserPlantDetailDto
 import com.alon.plantpulse.usergarden.application.usecase.GetUserPlantDataUseCase
+import com.alon.plantpulse.common.application.Result
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

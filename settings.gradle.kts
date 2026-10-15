@@ -1,5 +1,31 @@
 import java.net.URI
 
+include(":features:plantCare:di")
+
+
+include(":features:plantCare:device")
+
+
+include(":features:plantCare:ui")
+
+
+include(":features:plantCare:api")
+
+
+
+include(":features:common:application")
+
+
+include(":features:plantCare:application")
+
+
+include(":features:plantCare:domain")
+
+
+
+include(":features:plantCare:featureTest")
+
+
 include(":features:home:ui")
 
 

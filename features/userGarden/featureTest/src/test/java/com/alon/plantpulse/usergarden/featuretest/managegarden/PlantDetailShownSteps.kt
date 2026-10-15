@@ -3,7 +3,6 @@ package com.alon.plantpulse.usergarden.featuretest.managegarden
 import android.os.Looper
 import android.view.View
 import androidx.lifecycle.ViewModelStore
-import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
@@ -15,15 +14,15 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.alon.plantpulse.common.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlant
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenFragment
 import com.alon.plantpulse.usergarden.ui.controller.UserPlantDetailFragment
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then

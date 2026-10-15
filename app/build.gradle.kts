@@ -38,12 +38,22 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
     // Project modules
     implementation(project(":features:userGarden:di"))
     implementation(project(":features:home:ui"))
+    implementation(project(":features:plantCare:di"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -86,4 +96,6 @@ dependencies {
     androidTestImplementation(libs.androidx.paging.testing)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
 }

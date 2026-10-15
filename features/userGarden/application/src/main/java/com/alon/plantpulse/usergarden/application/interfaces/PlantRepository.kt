@@ -1,10 +1,10 @@
 package com.alon.plantpulse.usergarden.application.interfaces
 
 import androidx.paging.PagingData
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
 import com.alon.plantpulse.usergarden.domain.PlantEntity
 import kotlinx.coroutines.flow.Flow
+import com.alon.plantpulse.common.application.Result
 
 /**
  * Defines the data access operations for plants within the system.

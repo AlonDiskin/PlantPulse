@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alon.plantpulse.usergarden.application.model.Result
 import com.alon.plantpulse.usergarden.application.usecase.DeleteUserPlantUseCase
 import com.alon.plantpulse.usergarden.application.usecase.GetUserPlantDataUseCase
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDeleteUiState
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDetailUiState
 import com.alon.plantpulse.usergarden.ui.model.toUiState
 import com.alon.plantpulse.usergarden.ui.model.toUserPlantDetailErrorUiState
+import com.alon.plantpulse.common.application.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

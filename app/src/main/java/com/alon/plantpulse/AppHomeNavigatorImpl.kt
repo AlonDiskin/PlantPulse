@@ -4,7 +4,7 @@ import com.alon.plantpulse.home.ui.AppHomeNavigator
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+//@Singleton
 class AppHomeNavigatorImpl @Inject constructor() : AppHomeNavigator {
 
     override fun getAppNavGraphId(): Int {

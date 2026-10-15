@@ -23,8 +23,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.application.model.UserGardenError
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
+import com.alon.plantpulse.common.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDeleteUiState
 import com.alon.plantpulse.usergarden.ui.model.UserPlantDetailUiState
 import com.alon.plantpulse.usergarden.ui.viewmodel.UserPlantDetailViewModel
@@ -284,5 +284,26 @@ class UserPlantDetailFragmentTest {
 
         // Then delete button should be enabled
         onView(withId(R.id.btn_delete_plant)).check(matches(isEnabled()))
+    }
+
+    @Test
+    fun whenUserSelectToOpenPlantCareScreen_AndPlantDataLoaded_NavigateToPlantCare() {
+        // Give a shown fragment with plant detail
+        val plantId = 42
+        val mockNavigator = mockk<UserGardenNavigator>(relaxed = true)
+
+        scenario.onActivity { activity ->
+            val fragment = activity.supportFragmentManager.fragments.first() as UserPlantDetailFragment
+            fragment.navigator = mockNavigator
+            uiStateLiveData.value = UserPlantDetailUiState(id = plantId, commonName = "Aloe")
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When user clicks on plant care fab (fab_care)
+        onView(withId(R.id.fab_care)).perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should navigate to plant care screen, via UserGardenNavigator
+        verify(exactly = 1) { mockNavigator.navigateToPlantCare(plantId) }
     }
 }

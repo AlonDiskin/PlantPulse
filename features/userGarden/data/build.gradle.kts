@@ -41,6 +41,7 @@ dependencies {
     // Project modules
     implementation((project(":features:userGarden:domain")))
     implementation((project(":features:userGarden:application")))
+    implementation((project(":features:plantCare:api")))
 
     // Android
     implementation(libs.androidx.core.ktx)

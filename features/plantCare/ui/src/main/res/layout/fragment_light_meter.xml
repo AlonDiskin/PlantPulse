@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="meterStatus"
+            type="com.alon.plantpulse.plantcare.ui.model.LightMeterStatusUiState" />
+        <variable
+            name="plantDiagnostic"
+            type="com.alon.plantpulse.plantcare.ui.model.PlantCareDiagnosticUiState" />
+        <variable
+            name="onShareClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        tools:theme="@style/Theme.Material3.DayNight"
+        tools:context="com.alon.plantpulse.plantcare.ui.controller.LightMeterFragment">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_instruction_label"
+            style="@style/TextAppearance.Material3.LabelLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/instructions_light_meter"
+            android:textColor="?attr/colorOutline"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/wb_sunny_24dp"
+            app:drawableTint="?attr/colorOutline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_share"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{onShareClickListener}"
+            app:icon="@drawable/share_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_instruction_label"
+            android:contentDescription="Share diagnostic" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_plant_name"
+            style="@style/TextAppearance.Material3.HeadlineMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{plantDiagnostic.plantName}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_instruction_label"
+            tools:text="Snake Plant" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_light_status"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{meterStatus.status}"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_plant_name"
+            tools:text="Sufficient Light" />
+
+        <!-- Full circular Lux Gauge -->
+        <ProgressBar
+            android:id="@+id/pb_lux_meter"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:max="10000"
+            android:progress="0"
+            android:progressDrawable="@drawable/bg_lux_gauge"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_light_status"
+            tools:progress="2000"/>
+
+        <LinearLayout
+            android:id="@+id/ll_current_lux"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/pb_lux_meter"
+            app:layout_constraintEnd_toEndOf="@id/pb_lux_meter"
+            app:layout_constraintStart_toStartOf="@id/pb_lux_meter"
+            app:layout_constraintTop_toTopOf="@id/pb_lux_meter">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_current_lux"
+                style="@style/TextAppearance.Material3.DisplayMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{meterStatus.luxValue}"
+                tools:text="1,250" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.LabelMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CURRENT LUX"
+                android:textColor="?attr/colorOutline" />
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pb_lux_meter"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="12dp"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recommended Range"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_recommended_range"
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{plantDiagnostic.recommendedRange}"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="500 ~ 1,500 Lux" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

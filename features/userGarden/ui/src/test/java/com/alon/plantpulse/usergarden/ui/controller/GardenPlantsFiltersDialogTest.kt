@@ -22,7 +22,7 @@ import com.alon.plantpulse.usergarden.domain.BloomingSeason
 import com.alon.plantpulse.usergarden.domain.PlantCategory
 import com.alon.plantpulse.usergarden.domain.PlantSunCare
 import com.alon.plantpulse.usergarden.domain.PlantWaterCare
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.model.UserPlantsFiltersUiState
 import com.alon.plantpulse.usergarden.ui.viewmodel.GardenPlantsFiltersViewModel
 import com.google.common.truth.Truth.assertThat

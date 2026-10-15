@@ -10,7 +10,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -18,6 +17,8 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.alon.plantpulse.common.ui.HiltTestActivity
+import com.alon.plantpulse.common.ui.launchFragmentInHiltContainer
 import com.alon.plantpulse.plantsdetail.ui.R
 import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlant
@@ -25,10 +26,8 @@ import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import com.alon.plantpulse.usergarden.featuretest.util.atPosition
 import com.alon.plantpulse.usergarden.featuretest.util.createPlant
 import com.alon.plantpulse.usergarden.featuretest.util.hasItemCount
-import com.alon.plantpulse.usergarden.ui.HiltTestActivity
 import com.alon.plantpulse.usergarden.ui.controller.UserGardenSearchFragment
 import com.alon.plantpulse.usergarden.ui.controller.UserPlantDetailFragment
-import com.alon.plantpulse.usergarden.ui.launchFragmentInHiltContainer
 import com.google.android.material.search.SearchView
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
