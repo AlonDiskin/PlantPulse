@@ -4,6 +4,7 @@ import com.alon.plantpulse.common.application.Result
 import com.alon.plantpulse.plantcare.api.PlantCareData
 import com.alon.plantpulse.plantcare.api.PlantCareDataProvider
 import com.alon.plantpulse.plantcare.api.PlantLight
+import com.alon.plantpulse.plantcare.api.PlantWatering
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
 import com.alon.plantpulse.plantcare.domain.PlantLightRange
 import com.google.common.truth.Truth.assertThat
@@ -27,7 +28,8 @@ class GetPlantCareDiagnosticUseCaseTest {
         val plantData = PlantCareData(
             id = plantId,
             commonName = "Snake Plant",
-            light = PlantLight.SHADE
+            light = PlantLight.SHADE,
+            watering = PlantWatering.LOW
         )
         coEvery { provider.providePlantCareData(plantId) } returns plantData
 
@@ -55,7 +57,8 @@ class GetPlantCareDiagnosticUseCaseTest {
             val plantData = PlantCareData(
                 id = plantId,
                 commonName = "Test Plant",
-                light = inputLight
+                light = inputLight,
+                watering = PlantWatering.LOW
             )
             coEvery { provider.providePlantCareData(plantId) } returns plantData
 

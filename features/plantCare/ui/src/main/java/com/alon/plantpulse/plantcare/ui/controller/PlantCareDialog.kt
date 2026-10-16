@@ -17,7 +17,7 @@ import dagger.hilt.android.migration.OptionalInject
  *
  * Current options include:
  * - Light Meter: Navigates to the real-time light measurement screen.
- * - Water Reminder: (To be implemented)
+ * - Water Reminder: Navigates to the watering schedule configuration screen.
  */
 @OptionalInject
 @AndroidEntryPoint
@@ -52,7 +52,10 @@ class PlantCareDialog : DialogFragment() {
         }
 
         binding.onWaterReminderClick = View.OnClickListener {
-            // Future implementation
+            if (plantId != -1) {
+                navigateToWateringReminder(plantId)
+            }
+            dismiss()
         }
 
         binding.onCloseClick = View.OnClickListener {
@@ -66,6 +69,14 @@ class PlantCareDialog : DialogFragment() {
     private fun navigateToLightMeter(plantId: Int) {
         val bundle = bundleOf("plantId" to plantId)
         findNavController().navigate(R.id.lightMeterFragment, bundle)
+    }
+
+    /**
+     * Navigates to the Watering Reminder screen for the specific plant.
+     */
+    private fun navigateToWateringReminder(plantId: Int) {
+        val bundle = bundleOf("plantId" to plantId)
+        findNavController().navigate(R.id.wateringReminderFragment, bundle)
     }
 
     override fun onDestroyView() {

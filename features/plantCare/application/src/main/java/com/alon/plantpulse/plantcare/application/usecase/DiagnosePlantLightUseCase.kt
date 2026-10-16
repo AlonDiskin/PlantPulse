@@ -2,13 +2,11 @@ package com.alon.plantpulse.plantcare.application.usecase
 
 import com.alon.plantpulse.common.application.Result
 import com.alon.plantpulse.plantcare.api.PlantCareDataProvider
-import com.alon.plantpulse.plantcare.api.PlantLight
 import com.alon.plantpulse.plantcare.application.interfaces.LightSensorGateway
 import com.alon.plantpulse.plantcare.application.model.LightDiagnostic
 import com.alon.plantpulse.plantcare.application.model.LightStatus
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
-import com.alon.plantpulse.plantcare.domain.DiagnosticPlantEntity
-import com.alon.plantpulse.plantcare.domain.PlantLightRange
+import com.alon.plantpulse.plantcare.application.util.PlantCareDataMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -32,7 +30,8 @@ import javax.inject.Inject
 class DiagnosePlantLightUseCase @Inject constructor(
     private val lightSensorGateway: LightSensorGateway,
     private val plantCareDataProvider: PlantCareDataProvider,
-    private val defaultDispatcher: CoroutineDispatcher
+    private val defaultDispatcher: CoroutineDispatcher,
+    private val plantDataMapper: PlantCareDataMapper
 ) {
 
     /**
@@ -59,15 +58,7 @@ class DiagnosePlantLightUseCase @Inject constructor(
                 is Result.Failure -> flowOf(result)
                 is Result.Success -> {
                     val plantData = result.data
-                    val plant = DiagnosticPlantEntity(
-                        id = plantData.id,
-                        commonName = plantData.commonName,
-                        lightRange = when (plantData.light) {
-                            PlantLight.FULL -> PlantLightRange.FULL
-                            PlantLight.PARTIAL -> PlantLightRange.PARTIAL
-                            PlantLight.SHADE -> PlantLightRange.SHADE
-                        }
-                    )
+                    val plant = plantDataMapper.mapToEntity(plantData)
 
                     lightSensorGateway.getLightLuxFlow().map { sensorResult ->
                         when (sensorResult) {

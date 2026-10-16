@@ -3,6 +3,7 @@ package com.alon.plantpulse.di
 import android.content.Context
 import androidx.room.Room
 import com.alon.plantpulse.db.AppDatabase
+import com.alon.plantpulse.plantcare.data.local.dao.WateringScheduleDao
 import com.alon.plantpulse.usergarden.data.local.PlantDao
 import com.alon.plantpulse.usergarden.data.local.UserPlantDao
 import dagger.Module
@@ -33,5 +34,11 @@ object AppDataModule {
     @Provides
     fun provideUserPlantDao(db: AppDatabase): UserPlantDao {
         return db.userPlantDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideWateringScheduleDao(db: AppDatabase): WateringScheduleDao {
+        return db.wateringScheduleDao()
     }
 }

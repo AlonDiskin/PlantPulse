@@ -24,6 +24,7 @@ import com.alon.plantpulse.common.ui.launchDialogInHiltContainer
 import com.alon.plantpulse.plantcare.api.PlantCareData
 import com.alon.plantpulse.plantcare.api.PlantCareDataProvider
 import com.alon.plantpulse.plantcare.api.PlantLight
+import com.alon.plantpulse.plantcare.api.PlantWatering
 import com.alon.plantpulse.plantcare.ui.R
 import com.alon.plantpulse.plantcare.ui.controller.LightMeterFragment
 import com.alon.plantpulse.plantcare.ui.controller.PlantCareDialog
@@ -69,7 +70,8 @@ class PlantLightMeasuredSteps(
         coEvery { mockProvider.providePlantCareData(plantId) } returns PlantCareData(
             id = plantId,
             commonName = plantName,
-            light = PlantLight.SHADE
+            light = PlantLight.SHADE,
+            watering = PlantWatering.MODERATE
         )
     }
 

@@ -41,6 +41,7 @@ dependencies {
     api(project(":features:plantCare:domain"))
     api(project(":features:plantCare:device"))
     api(project(":features:plantCare:api"))
+    api(project(":features:plantCare:data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

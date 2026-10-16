@@ -68,4 +68,8 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.navigation.test)
     testImplementation(libs.androidx.espresso.intents)
+    testImplementation(libs.room.runtime)
+    testImplementation(libs.room.ktx)
+    kspTest(libs.room.compiler)
+    testImplementation(libs.room.testing)
 }

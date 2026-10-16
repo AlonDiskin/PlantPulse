@@ -18,5 +18,13 @@
         <action
             android:id="@+id/action_plantCareDialog_to_lightMeterFragment"
             app:destination="@id/lightMeterFragment" />
+        <action
+            android:id="@+id/action_plantCareDialog_to_wateringReminderFragment"
+            app:destination="@id/wateringReminderFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/wateringReminderFragment"
+        android:name="com.alon.plantpulse.plantcare.ui.controller.WateringReminderFragment"
+        android:label=""
+        tools:layout="@layout/fragment_watering_reminder"/>
 </navigation>

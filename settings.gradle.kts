@@ -1,5 +1,8 @@
 import java.net.URI
 
+include(":features:plantCare:data")
+
+
 include(":features:plantCare:di")
 
 

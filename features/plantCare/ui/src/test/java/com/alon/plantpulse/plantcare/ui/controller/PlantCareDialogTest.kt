@@ -67,7 +67,6 @@ class PlantCareDialogTest {
             navController = navController
         ) {
             navController.setGraph(R.navigation.plant_care_nav_graph)
-            // Start at the implicit parent or just assume it's showing the dialog
         }
         Shadows.shadowOf(Looper.getMainLooper()).idle()
 
@@ -78,6 +77,29 @@ class PlantCareDialogTest {
         // Then app should navigate to light meter fragment
         assertThat(navController.currentDestination?.id).isEqualTo(R.id.lightMeterFragment)
         
+        // And pass the correct plantId as an argument
+        val args = navController.backStack.last().arguments
+        assertThat(args?.getInt("plantId")).isEqualTo(plantId)
+    }
+
+    @Test
+    fun whenUserSelectToOpenWateringReminderScreen_ShouldNavigateToWateringReminderFragment() {
+        // Given a launched dialog fragment with a valid plantId and navigation set up
+        launchFragmentInHiltContainer<PlantCareDialog>(
+            fragmentArgs = bundleOf("plantId" to plantId),
+            navController = navController
+        ) {
+            navController.setGraph(R.navigation.plant_care_nav_graph)
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When user clicks the water reminder button
+        onView(withId(R.id.btn_water_reminder)).perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then app should navigate to watering reminder fragment
+        assertThat(navController.currentDestination?.id).isEqualTo(R.id.wateringReminderFragment)
+
         // And pass the correct plantId as an argument
         val args = navController.backStack.last().arguments
         assertThat(args?.getInt("plantId")).isEqualTo(plantId)

@@ -4,9 +4,11 @@ import com.alon.plantpulse.common.application.Result
 import com.alon.plantpulse.plantcare.api.PlantCareData
 import com.alon.plantpulse.plantcare.api.PlantCareDataProvider
 import com.alon.plantpulse.plantcare.api.PlantLight
+import com.alon.plantpulse.plantcare.api.PlantWatering
 import com.alon.plantpulse.plantcare.application.interfaces.LightSensorGateway
 import com.alon.plantpulse.plantcare.application.model.LightStatus
 import com.alon.plantpulse.plantcare.application.model.PlantCareError
+import com.alon.plantpulse.plantcare.application.util.PlantCareDataMapper
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every
@@ -27,13 +29,20 @@ class DiagnosePlantLightUseCaseTest {
     private val lightSensorGateway: LightSensorGateway = mockk()
     private val plantCareDataProvider: PlantCareDataProvider = mockk()
     private val testDispatcher = UnconfinedTestDispatcher()
-    private val useCase = DiagnosePlantLightUseCase(lightSensorGateway, plantCareDataProvider, testDispatcher)
+    private val plantDataMapper = PlantCareDataMapper()
+    private val useCase = DiagnosePlantLightUseCase(
+        lightSensorGateway,
+        plantCareDataProvider,
+        testDispatcher,
+        plantDataMapper
+    )
 
     private val plantId = 1
     private val plantData = PlantCareData(
         id = plantId,
         commonName = "Snake Plant",
-        light = PlantLight.SHADE // SHADE range: 500 - 1500 Lux
+        light = PlantLight.SHADE, // SHADE range: 500 - 1500 Lux
+        watering = PlantWatering.LOW
     )
 
     @Test

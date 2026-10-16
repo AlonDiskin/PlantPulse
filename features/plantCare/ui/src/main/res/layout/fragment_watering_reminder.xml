@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="uiState"
+            type="com.alon.plantpulse.plantcare.ui.model.WateringReminderUiState" />
+        <variable
+            name="onSaveClickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onCancelClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:theme="@style/Theme.Material3.DayNight">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Header Section -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_plant_name"
+                    style="@style/TextAppearance.Material3.HeadlineMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{uiState.plantName}"
+                    android:textStyle="bold"
+                    tools:text="Snake Plant" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_recommended_watering"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@{uiState.recommendedWatering}"
+                    android:textColor="?attr/colorSecondary"
+                    app:drawableStartCompat="@drawable/water_drop_24dp"
+                    app:drawableTint="?attr/colorSecondary"
+                    tools:text="Recommended: Every 14-21 days" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="24dp" />
+
+                <!-- Reminder Configuration -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Reminder Message"
+                    app:helperText="Message to show in the notification">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_reminder_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:text="@={uiState.customMessage}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Date and Time Selection -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Start Date &amp; Time"
+                    android:textColor="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_date"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="@{uiState.selectedDate}"
+                        tools:text="Oct 24, 2023" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_time"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{uiState.selectedTime}"
+                        tools:text="09:00 AM" />
+                </LinearLayout>
+
+                <!-- Repeat Frequency -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="Repeat Interval">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actv_repeat_interval"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        tools:text="Once a week" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sound Selection -->
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Notification Sound"
+                    android:textColor="?attr/colorPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_sound"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start|center_vertical"
+                    android:text="@{uiState.selectedSoundName}"
+                    app:icon="@drawable/share_24dp"
+                    tools:text="Default (Droplet)" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:onClick="@{onSaveClickListener}"
+                    android:paddingVertical="12dp"
+                    android:text="Set Watering Reminder" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel_reminder"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:onClick="@{onCancelClickListener}"
+                    android:paddingVertical="12dp"
+                    android:text="Cancel Reminder"
+                    android:textColor="?attr/colorError" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
